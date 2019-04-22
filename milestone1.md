@@ -16,7 +16,7 @@ WeAnimal is a web application that identifies animal breeds from user uploaded p
 
 ### Storyboard 1
 
-![WeAnimal Storyboard](prototype_images/WeAnimal_Story.JPG)
+![WeAnimal Storyboard](prototype_images/WeAnimal_Story.jpg)
 
 ### Paper Prototype 1
 
