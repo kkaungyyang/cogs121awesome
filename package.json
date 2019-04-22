@@ -1,0 +1,24 @@
+{
+  "name": "editted",
+  "version": "1.0.0",
+  "description": "cogs 121 ucsd spring 2019",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkaungyyang/cogs121awesome.git"
+  },
+  "author": "Kaung Yang, Mingbin Li, Andrew Or, Hillary Thi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kkaungyyang/cogs121awesome/issues"
+  },
+  "homepage": "https://github.com/kkaungyyang/cogs121awesome#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "path": "^0.12.7"
+  }
+}
