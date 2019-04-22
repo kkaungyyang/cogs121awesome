@@ -8,14 +8,21 @@
 * Andrew Or
 * Hillary Thi 
 
-## Proposal 1 - 
+---
 
-Pet owners, especially when the pets are adopted, do not have a means to identify what type of breed their pets are. Our app will provide services for pets, specifically dogs, to be matched with their breed. That way, pet owners know more about their pets and love them more. This project fits the design theme of this year because none of our team members own pets. Furthermore, college students do not tend to own any pets. So we are indeed designing for people that are different from us. 
+## Proposal 1 - WeAnimal
+
+WeAnimal is a web application that identifies animal breeds from user uploaded photos by applying machine learning on an existing dataset of animal photos. This app is targeting pet owners that do not know what breed their pet is, commonly a result of shelter adoptions or stray adoptions. Since none of the members of Editted have pets, we do not fall into our target population and will be designing for people different from us. We will be exploring the Stanford Dogs Dataset and the Oxford-IIIT Pet Dataset, both of which contain images that have ground truth breed annotations.
 
 ### Storyboard 1
 
+![WeAnimal Storyboard](prototype_images/WeAnimal_Story.JPG)
+
 ### Paper Prototype 1
 
+![WeAnimal Prototype Image 1](prototype_images/WeAnimal_Prototype.jpg)
+
+---
 
 ## Proposal 2 - TwitchViewerInfo
 
@@ -23,8 +30,14 @@ Twitch is an online streaming platform where streamers live broadcast gaming vid
 
 ### Storyboard 2
 
+![TwitchViewerInfo Storyboard](prototype_images/Twitch_Story.png)
+
 ### Paper Prototype 2
 
+![Twitch Viewer Prototype Image 1](prototype_images/Twitch_Prototype1.1.png)
+![Twitch Viewer Prototype Image 2](prototype_images/Twitch_Prototype1.2.png)
+
+---
 
 ## Proposal 3 - SafeSpot
 
@@ -32,4 +45,10 @@ SafeSpot is a service that provide information and prediction on various natural
 
 ### Storyboard 3
 
+![SafeSpot Storyboard](prototype_images/SafeSpot_Prototype1.1.png)
+
 ### Paper Prototype 3
+
+![SafeSpot Prototype Image 1](prototype_images/SafeSpot_Prototype1.1.png)
+![SafeSpot Prototype Image 2](prototype_images/SafeSpot_Prototype1.2.png)
+
