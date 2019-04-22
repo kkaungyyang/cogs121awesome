@@ -1,5 +1,6 @@
-# cogs121awesome
-COGS 121 Spring 2019
+# COGS 121 Spring 2019
+### Team Name
+* Editted
 
 ### Team Members
 * Kaung Yang
