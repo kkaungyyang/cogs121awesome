@@ -86,9 +86,9 @@ app.get('/fetch', function(req,res) {
 	res.send({"Golden Retriever": "Loyal happy breed.", "Lab": "Kind happy breed."});
 });
 
- app.listen(process.env.PORT || 3000, () => {
-     console.log("==> Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+const PORT = process.env.PORT || 3000; 
+ app.listen( PORT, () => {
+     console.log(`Server running on port ${PORT}`);
  });
-
 
 module.exports = app;
