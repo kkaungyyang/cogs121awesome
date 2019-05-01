@@ -86,12 +86,9 @@ app.get('/fetch', function(req,res) {
 	res.send({"Golden Retriever": "Loyal happy breed.", "Lab": "Kind happy breed."});
 });
 
-// app.listen(process.env.PORT || 3000, () => {
-//     console.log("==> Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-// });
+ app.listen(process.env.PORT || 3000, () => {
+     console.log("==> Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+ });
 
-app.listen(3000, () => {
-  console.log('Server started at http://localhost:3000/');
-});
 
 module.exports = app;
