@@ -61,6 +61,30 @@ const fakeDatabase = {
   'Rabbit':{}
 };
 
+const breedDatabase = {
+  'DOG': {
+    'Golden Retriever': 'Loyal happy breed.', 
+    'Lab': 'Kind happy breed.'
+  },
+  'CAT': {
+    'American Shorthair': 'Cute, likes to play.',
+    'Persian': 'Calm, enjoys time alone.'
+  },
+  'BIRD':{
+    'Parrot': 'Talks back.'
+  },
+  'HAMSTER':{
+    'Winter White Dwarf': 'Plump, white.'
+  },
+  'HORSE':{
+    'American Quarter': 'Excels at sprinting short distances.'
+  },
+  'RABBIT':{
+    'Dutch Rabbit': 'Gentle, calm, easy going. Thrives on attention.'
+  }
+
+};
+
 
 /* CODE */
 app.get('/', function(req,res){
@@ -75,6 +99,11 @@ app.get('/search/:animal', function(req,res){
 	 });
 });
 
+
+app.get('/contact', function(req,res){
+  res.render('contact');
+});
+
 //temp hardcode ajax fetch for breed match
 app.get('/fetch', function(req,res) {
   // db.collection('facts').doc(breed).get().then( doc => { // TODO: Consider mix of breeds
@@ -83,7 +112,10 @@ app.get('/fetch', function(req,res) {
   //   console.log('Error getting info on breed', err)
   // });
 
-	res.send({"Golden Retriever": "Loyal happy breed.", "Lab": "Kind happy breed."});
+  // Object.keys(req.query).forEach( (breed) => {} );
+  console.log(req.query.type);
+  console.log( breedDatabase[req.query.type]);
+	res.send( breedDatabase[req.query.type] );
 });
 
 // app.listen(process.env.PORT || 3000, () => {
