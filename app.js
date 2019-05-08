@@ -4,33 +4,44 @@ const path = require('path');
 const firebase = require("firebase");
 const admin = require('firebase-admin');
 const firebaseConfig = require('./firebase-credentials.json')
+const https = require('https');
 const app = express(); 
 
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
-// for (breed of Object.keys(fakeDatabase) ) {
-//   db.collection('facts').doc(breed).set(fakeDatabase[breed]); 
-// }
-const writeToDB =  false;
+const writeToDB =  true;
 if (writeToDB) { // Upload data from dog breeds API
- 
-  let breed = 'Irish Terrier2';
-  firebaseDB.ref('breedInfo/' + breed).set({ // Add info on each breed of dog to DB
-    height: {
-      "imperial": "18",
-      "metric": "46"
-    },
-    life_span: "12 - 16 years",
-    temperament: "Respectful, Lively, Intelligent, Dominant, Protective, Trainable",
-    weight: {
-      "imperial": "25 - 27",
-      "metric": "11 - 12"
-    }
-  }).then(
-    console.log("Successful write to firebase database!")
-  );
+  const options = {
+    host: 'api.thedogapi.com',
+    path: '/v1/breeds'
+  };
+  options['x-api-key'] = 'a9e1cbf4-a8ac-41c3-9c30-06368bb36e0a';
+
+  // Request data from TheDogAPI
+  https.get(options,(res) => { 
+    console.log(`Successful request to TheDogAPI`);
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(`Received data on ${parsedData.length} breeds of dogs.`);
+        
+        // Add info on each breed of dog to DB
+        console.log(`Writing data on ${parsedData.length} breeds of dogs to firebase.`);
+        for (let breed of parsedData) { 
+          firebaseDB.ref('breedInfo/' + breed['name']).set(breed);
+        }
+      } catch (e) {
+        console.error(`Error parsing data: ${e.message}`);
+      }
+    });
+  }).on('error', (err) => {
+    console.error(`Error while requesting TheDogAPI api: ${err.message}`);
+  });
 }
 
 app.set('views', path.join(__dirname, 'views')); // specify that we want to use "views" folder for our "HTML" templates
@@ -61,8 +72,7 @@ const fakeDatabase = {
   'Rabbit':{}
 };
 
-
-/* CODE */
+//  APP ROUTE 
 app.get('/', function(req,res){
 	res.render('index', {
 		animals: Object.keys(fakeDatabase)
@@ -77,6 +87,7 @@ app.get('/search/:animal', function(req,res){
 
 //temp hardcode ajax fetch for breed match
 app.get('/fetch', function(req,res) {
+  
   // db.collection('facts').doc(breed).get().then( doc => { // TODO: Consider mix of breeds
   //   res.send(doc)
   // }).catch( err => {
