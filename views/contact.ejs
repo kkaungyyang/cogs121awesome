@@ -58,7 +58,7 @@
 <!-- STICKY NAV BAR  -->
 <nav class="navbar fixed-top navbar-light navbar-expand-lg">
 	<!-- logo -->
-	<a class="navbar-brand" href="#"><h2>WeAnimal <i class="fas fa-paw"></i></h2></a>
+	<a class="navbar-brand" href="/"><h2>WeAnimal <i class="fas fa-paw"></i></h2></a>
 
 	<!-- responsive toggle icon -->
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,8 +68,8 @@
 	<!-- navbar selections -->
 	<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 		<ul class="navbar-nav">
-	      <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-	      <li class="nav-item"><a class="nav-link" href="contact">Contact Us</a></li>
+	      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+	      <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
 	    </ul>
     </div>
 </nav>
@@ -79,48 +79,10 @@
 <div class="center">
 
 	<!-- header question -->
-	<h1> What animal are you trying to identify? <span>&#128062</span></h1><br>
+	<h1> Contact Us page coming soon! Check back later <span>&#128062</span></h1><br>
 
-	<!-- input field, prefilled with database animals -->
-	<input type="text" list="languages" value="" id="animal_input">
-	<datalist id="languages">
-		<% for (var i = 0; i < animals.length; i++) { %>
-		 <option value="<%= animals[i] %>">
-		<% } %>
-	</datalist>
-	<br><br>
-
-	<!-- submit form button, used get so it would show in url -->
-	<form action="" method="get" onsubmit="return checkAnimal()" id="animal_form">
-		<!-- <input type="hidden" name="animal" value="" id="animal_submit"> -->
-		<button type="submit" class="btn btn-lg">Continue</button>
-	</form>
 
 </div>
-
-<script>
-
-	function checkAnimal(){
-
-		//gets user input
-		const userInput = $("#animal_input").val().trim().toUpperCase();
-
-		// array of all current animals in our database
-		const total_animals = <%- JSON.stringify(animals) %>.map(a => a.toUpperCase());
-
-		//if user input is valid animal, continue. otherwise, alert and stay on page
-		if ( ($.inArray(userInput, total_animals) == -1 )){
-			// user input isn't in valid animal choices
-			alert("Your input is not an animal our system can currently identify. Feel free to send us feedback or try again with another animal.")
-			return false;
-		}
-		$("#animal_submit").val(userInput);
-		$("#animal_form").attr('action', 'search/'+userInput);
-		return true;
-	}
-
-</script>
-
 </body>
 </html>
 

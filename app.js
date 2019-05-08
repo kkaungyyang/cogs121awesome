@@ -11,8 +11,8 @@ const app = express();
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
-const writeToDB =  true;
-if (writeToDB) { // Upload data from dog breeds API
+const seedDB =  false;
+if (seedDB) { // Upload data from dog breeds API
   const options = {
     host: 'api.thedogapi.com',
     path: '/v1/breeds'
@@ -73,6 +73,32 @@ const fakeDatabase = {
 };
 
 //  APP ROUTE 
+const breedDatabase = {
+  'DOG': {
+    'Golden Retriever': 'Loyal happy breed.', 
+    'Lab': 'Kind happy breed.'
+  },
+  'CAT': {
+    'American Shorthair': 'Cute, likes to play.',
+    'Persian': 'Calm, enjoys time alone.'
+  },
+  'BIRD':{
+    'Parrot': 'Talks back.'
+  },
+  'HAMSTER':{
+    'Winter White Dwarf': 'Plump, white.'
+  },
+  'HORSE':{
+    'American Quarter': 'Excels at sprinting short distances.'
+  },
+  'RABBIT':{
+    'Dutch Rabbit': 'Gentle, calm, easy going. Thrives on attention.'
+  }
+
+};
+
+
+// ---- ROUTES ----
 app.get('/', function(req,res){
 	res.render('index', {
 		animals: Object.keys(fakeDatabase)
@@ -85,6 +111,11 @@ app.get('/search/:animal', function(req,res){
 	 });
 });
 
+
+app.get('/contact', function(req,res){
+  res.render('contact');
+});
+
 //temp hardcode ajax fetch for breed match
 app.get('/fetch', function(req,res) {
   
@@ -94,7 +125,10 @@ app.get('/fetch', function(req,res) {
   //   console.log('Error getting info on breed', err)
   // });
 
-	res.send({"Golden Retriever": "Loyal happy breed.", "Lab": "Kind happy breed."});
+  // Object.keys(req.query).forEach( (breed) => {} );
+  console.log(req.query.type);
+  console.log( breedDatabase[req.query.type]);
+	res.send( breedDatabase[req.query.type] );
 });
 
 // app.listen(process.env.PORT || 3000, () => {
