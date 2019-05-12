@@ -1,59 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Home</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!-- bootstrap, js-->
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<!-- fonts -->
-
-	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-	
-	<style>
-		:root {
-  			--muted-blue: #9BC4E2; 
-		}
-		.fas{
-			color: white;
-		}
-		body { 
-			padding-top: 150px; 
-		}
-		.navbar, .navbar-brand{
-			background-color: var(--muted-blue);
-			color: white;
-		}
-		.center{
-			text-align:center;
-		}
-		input{
-			font-size:200%;
-			width: 25em;
-			text-align: center;
-		}
-		input:focus{
-			color: gray;
-		}
-		.btn{
-			background-color: var(--muted-blue);
-			font-weight: bold;
-		}
-		.nav-link:hover{
-			font-weight: bold;
-		}
-	</style>
-
-
-</head>
-<body>
-
+<% include ./includes/header %>
 
 <!-- STICKY NAV BAR  -->
 <nav class="navbar fixed-top navbar-light navbar-expand-lg">
@@ -120,7 +65,4 @@
 	}
 
 </script>
-
-</body>
-</html>
-
+<% include ./includes/footer %>
