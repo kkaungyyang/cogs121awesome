@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<title>Search</title>
@@ -14,215 +15,250 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<!-- fonts -->
 
-	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-	
+	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+		integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
 	<style>
 		:root {
-  			--muted-blue: #9BC4E2; 
+			--muted-blue: #9BC4E2;
 		}
-		.fas{
+
+		.fas {
 			color: white;
 		}
-		body { 
-			padding-top: 150px; 
+
+		body {
+			padding-top: 150px;
 		}
-		.navbar, .navbar-brand{
+
+		.navbar,
+		.navbar-brand {
 			background-color: var(--muted-blue);
 			color: white;
 		}
-		.center{
-			text-align:center;
+
+		.center {
+			text-align: center;
 		}
-		input{
-			font-size:200%;
+
+		input {
+			font-size: 200%;
 			width: 25em;
 			text-align: center;
 		}
-		input:focus{
+
+		input:focus {
 			color: gray;
 		}
-		.btn{
+
+		.btn {
 			font-weight: bold;
 			background-color: var(--muted-blue);
 		}
-		.nav-link:hover{
+
+		.nav-link:hover {
 			font-weight: bold;
 		}
 
 		.btn-file {
-		    position: relative;
-		    overflow: hidden;
+			position: relative;
+			overflow: hidden;
 		}
+
 		.btn-file input[type=file] {
-		    position: absolute;
-		    top: 0;
-		    right: 0;
-		    outline: none;
-		    cursor: grab;
-		    display:inline;
+			position: absolute;
+			top: 0;
+			right: 0;
+			outline: none;
+			cursor: grab;
+			display: inline;
 		}
 
 		/*hides file name that pops up for image input*/
-		input[type=file]{
-			color: rgba(0,0,0,0);
+		input[type=file] {
+			color: rgba(0, 0, 0, 0);
 		}
 
 		/*changes bullet points to custom emoji bullets*/
 		ul {
-		    list-style: none;
-		}/*
+			list-style: none;
+		}
+
+		/*
 		ul li:before
 		{
 		    content: '\1F43E'; 
 		    margin: 0 1em;   
 		}*/
 
+		tr{
+			align-items: flex-start;
+			text-align: center;
+			padding: 0 50px 125px;
+		}
+
+		#breed_list tr td:last-child {
+			font-weight: normal;
+			padding-left: 150px;
+		}
+		td li{
+			list-style: none;
+		}
+
 	</style>
 
 
 </head>
+
 <body>
 
 
-<!-- STICKY NAV BAR  -->
-<nav class="navbar fixed-top navbar-light navbar-expand-lg">
-	<!-- logo -->
-	<a class="navbar-brand" href="/"><h2>WeAnimal <i class="fas fa-paw"></i></h2></a>
+	<!-- STICKY NAV BAR  -->
+	<nav class="navbar fixed-top navbar-light navbar-expand-lg">
+		<!-- logo -->
+		<a class="navbar-brand" href="/">
+			<h2>WeAnimal <i class="fas fa-paw"></i></h2>
+		</a>
 
-	<!-- responsive toggle icon -->
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+		<!-- responsive toggle icon -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	<!-- navbar selections -->
-	<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-		<ul class="navbar-nav">
-	      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-	      <li class="nav-item"><a class="nav-link" href="../contact">Contact Us</a></li>
-	    </ul>
-    </div>
-</nav>
-
-
-<!-- rest of page -->
-<div class="center" style="padding-bottom: 100px">
-
-	<!-- header question -->
-	<h1> What breed is this <b><%= currentAnimal %></b>? <span>&#128062</span></h1><br>
-
-	<!-- default photo is 'add photo' icon -->
-	<img id="upload_image" src="../images/add_icon.jpg" width="500px" style="border:black solid 1px"><br><br>
-
-
-	<div id="upload_buttons">
-		<!-- input field that strictly accepts images -->
-		<span class="btn btn-default btn-file btn-lg">
-	    Browse...<input type="file" accept="image/*" id="upload_input">
-		</span> 
-
-		<!-- submit button -->
-		<button type="submit" class="btn btn-lg" style="display:none" id="view_results" onclick="loadAnimation()">View Results!</button>
-	</div>
-
-	<div id="upload_animation" style="display:none">
-		<h2 style="color:green" id="loading_text">Scanning....<h2>
-	</div>
-
-
-	<div id="breed_results" style="display:none">
-		<h2 style="color:black">Your <%= currentAnimal %> is the following breed(s):<h2><hr>
-		<p>
-			<ul id="breed_list" class="container">
+		<!-- navbar selections -->
+		<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+				<li class="nav-item"><a class="nav-link" href="../contact">Contact Us</a></li>
 			</ul>
-		<p>
+		</div>
+	</nav>
+
+
+	<!-- rest of page -->
+	<div class="center" style="padding-bottom: 100px">
+
+		<!-- header question -->
+		<h1> What breed is this <b><%= currentAnimal %></b>? <span>&#128062</span></h1><br>
+
+		<!-- default photo is 'add photo' icon -->
+		<img id="upload_image" src="../images/add_icon.jpg" width="500px" style="border:black solid 1px"><br><br>
+
+
+		<div id="upload_buttons">
+			<!-- input field that strictly accepts images -->
+			<span class="btn btn-default btn-file btn-lg">
+				Browse...<input type="file" accept="image/*" id="upload_input">
+			</span>
+
+			<!-- submit button -->
+			<button type="submit" class="btn btn-lg" style="display:none" id="view_results"
+				onclick="loadAnimation()">View Results!</button>
+		</div>
+
+		<div id="upload_animation" style="display:none">
+			<h2 style="color:green" id="loading_text">Scanning....<h2>
+		</div>
+
+
+		<div id="breed_results" style="display:none">
+			<h2 style="color:black">Your <%= currentAnimal %> is the following breed(s):<h2>
+			<hr>
+			<table id="breed_list" class="container"></table>
+		</div>
+
+		<!-- submit form button, used get so it would show in url -->
+		<form action="/" method="get" id="home_form" style="display:none">
+			<button type="submit" class="btn btn-lg">Back to home page</button>
+		</form>
+
 	</div>
 
-	<!-- submit form button, used get so it would show in url -->
-	<form action="/" method="get" id="home_form" style="display:none">
-		<button type="submit" class="btn btn-lg">Back to home page</button>
-	</form>
+	<script>
 
-</div>
+		function loadAnimation() {
 
-<script>
+			//hide buttons, show loading animation
+			$('#upload_buttons').css('display', 'none');
+			$('#upload_animation').css('display', 'block');
 
-	function loadAnimation(){
+			//set timeout temporarily so you can see the "loading" above
+			setTimeout(() => {
 
-		//hide buttons, show loading animation
-		$('#upload_buttons').css('display','none');
-		$('#upload_animation').css('display','block');
+				const fakeBreed = 'Golden Retriever'
 
-		//set timeout temporarily so you can see the "loading" above
-		setTimeout( ()=>{ 
-			
-			//ajax call to fetch details from db
-			$.ajax({
-				url : '/fetch',
-			    type : 'GET',
-			    data : { type: '<%= currentAnimal %>'},
-			    dataType: 'json',
-			    success : function(data) 
-			    {         
-			    	//grabs response data as json  
-			        // const breed_json = JSON.parse(data);
-			        const breed_json = data;
-			        const breed_names = Object.keys(breed_json);
+				//ajax call to fetch details from db
+				$.ajax({
+					url: '/fetch',
+					type: 'GET',
+					data: { type: '<%= currentAnimal %>', breed: fakeBreed },
+					dataType: 'json',
+					success: function (data) {
+						//grabs response data as json  
+						// const breed_json = JSON.parse(data);
+						const info_json = data;
+						const info_keys = Object.keys(info_json);
 
-			        console.log(breed_json);
-			        console.log(breed_names);
-			        
-			        //finished 'loading' to the users eye, displays breeds
-			        $('#loading_text').html("Loaded!");
-			        $('#breed_results').css('display','block');
+						//finished 'loading' to the users eye, displays breeds
+						$('#loading_text').html("Loaded!");
+						$('#breed_results').css('display', 'contents');
 
-			        //appends breeds dynamically
-			        breed_names.forEach( (breed)=>{
-	  					$('#breed_list').append('<li>'+ breed + " - " + breed_json[breed]+'</li>');
-			        });
+						//appends breeds dynamically
+						info_keys.forEach(prop => {
+							if (prop != 'temperament') {
+								$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
+							} else {
+								let list = '';
+								info_json[prop].split(',').forEach(element => {
+									list += `<li>${element}</li>`;
+								});
+								$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
+							}
+						});
 
-			        $('#home_form').css('display','block');
-			    },
-			    error : function(request,error)
-			    {
-			        console.log("Request: "+JSON.stringify(request));
-			    }
+						$('#home_form').css('display', 'block');
+					},
+					error: function (request, error) {
+						console.log("Request: " + JSON.stringify(request));
+					}
+				});
+
+			}, 1500);
+		}
+
+
+
+
+
+		$(document).ready(function () {
+
+			// does not change preview when you cancel out of choosing a photo
+			$('#upload_input').on('click touchstart', function () {
+				$(this).val('');
 			});
 
-		}, 1500);
-	}
+			// when a new photo is uploaded, change preview
+			$('#upload_input').on('change', function (e) {
 
+				if (this.files && this.files[0]) {
+					var reader = new FileReader();
 
-	
+					reader.onload = function (e) {
+						$('#upload_image').attr('src', e.target.result);
+					}
 
+					reader.readAsDataURL(this.files[0]);
+				}
 
-	$(document).ready(function() {
-		
-		// does not change preview when you cancel out of choosing a photo
-		$('#upload_input').on('click touchstart' , function(){
-    		$(this).val('');
+				//show submit button now that there's file attached
+				$('#view_results').css('display', 'inline');
+			});
+
 		});
 
-		// when a new photo is uploaded, change preview
-	    $('#upload_input').on('change', function(e) {
-
-		    if (this.files && this.files[0]) {
-		        var reader = new FileReader();
-
-		        reader.onload = function (e) {
-		            $('#upload_image').attr('src', e.target.result);
-		        }
-
-		        reader.readAsDataURL(this.files[0]);
-		    }
-
-		    //show submit button now that there's file attached
-		    $('#view_results').css('display','inline');
-	    });
-
-    });
-
-</script>
+	</script>
 
 </body>
-</html>
 
+</html>

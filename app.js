@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
 
 // Set bool to true to upload data from dog breeds API
-const seedDB =  true;
+const seedDB =  false;
 if (seedDB) { 
   const options = {
     host: 'api.thedogapi.com',
