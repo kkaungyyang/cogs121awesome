@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
 
 // Set bool to true to upload data from dog breeds API
-const seedDB =  false;
+const seedDB =  true;
 if (seedDB) { 
   const options = {
     host: 'api.thedogapi.com',
@@ -38,7 +38,7 @@ if (seedDB) {
           const data = {
             breed: breed_info.name,
             temperament: breed_info.temperament || '',
-            bred_for: breed_info.bred_for || '',
+            breed_for: breed_info.bred_for || '',
             life_span: breed_info.life_span || '',
             weight: `${breed_info.weight.imperial} lb OR ${breed_info.weight.metric} kg` || '',
             height: `${breed_info.height.imperial} in OR ${breed_info.height.metric} cm` || ''
