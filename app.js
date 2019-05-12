@@ -11,8 +11,10 @@ const app = express();
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
+
+// Set bool to true to upload data from dog breeds API
 const seedDB =  false;
-if (seedDB) { // Upload data from dog breeds API
+if (seedDB) { 
   const options = {
     host: 'api.thedogapi.com',
     path: '/v1/breeds'
@@ -32,8 +34,16 @@ if (seedDB) { // Upload data from dog breeds API
         
         // Add info on each breed of dog to DB
         console.log(`Writing data on ${parsedData.length} breeds of dogs to firebase.`);
-        for (let breed of parsedData) { 
-          firebaseDB.ref('breedInfo/' + breed['name']).set(breed);
+        for (let breed_info of parsedData) { 
+          const data = {
+            breed: breed_info.name,
+            temperament: breed_info.temperament || '',
+            bred_for: breed_info.bred_for || '',
+            life_span: breed_info.life_span || '',
+            weight: `${breed_info.weight.imperial} lb OR ${breed_info.weight.metric} kg` || '',
+            height: `${breed_info.height.imperial} in OR ${breed_info.height.metric} cm` || ''
+          }
+          firebaseDB.ref('breedInfo/' + data.breed).set(data);
         }
       } catch (e) {
         console.error(`Error parsing data: ${e.message}`);
@@ -118,17 +128,23 @@ app.get('/contact', function(req,res){
 
 //temp hardcode ajax fetch for breed match
 app.get('/fetch', function(req,res) {
-  
-  // db.collection('facts').doc(breed).get().then( doc => { // TODO: Consider mix of breeds
-  //   res.send(doc)
-  // }).catch( err => {
-  //   console.log('Error getting info on breed', err)
-  // });
+  const breed = req.query.breed; // TODO: Add breed as data in ajax call
+  firebaseDB.ref('breedInfo/' + breed).once('value').then( snapshot => { // TODO: Consider mix of breeds
+    console.log(`Breed is ${breed}`);
+    console.log(snapshot.val());
+    const data = snapshot.val();
+    Object.keys(data).forEach( info => {
+      console.log(`${info} => ${data[info]}`);
+    })
+    res.send(snapshot.val())
+  }).catch( err => {
+    console.log('Error getting info on breed', err)
+  });
 
   // Object.keys(req.query).forEach( (breed) => {} );
-  console.log(req.query.type);
-  console.log( breedDatabase[req.query.type]);
-	res.send( breedDatabase[req.query.type] );
+  // console.log(req.query.type);
+  // console.log( breedDatabase[req.query.type]);
+	// res.send( breedDatabase[req.query.type] );
 });
 
 // app.listen(process.env.PORT || 3000, () => {
