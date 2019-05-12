@@ -125,18 +125,16 @@ app.get('/fetch', function(req,res) {
   //   console.log('Error getting info on breed', err)
   // });
 
-  // Object.keys(req.query).forEach( (breed) => {} );
+  // Object.keys(req.query).forEach( (bokay reed) => {} );
   console.log(req.query.type);
   console.log( breedDatabase[req.query.type]);
 	res.send( breedDatabase[req.query.type] );
 });
 
-// app.listen(process.env.PORT || 3000, () => {
-//     console.log("==> Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-// });
 
-app.listen(3000, () => {
-  console.log('Server started at http://localhost:3000/');
+const PORT = process.env.PORT|| 3000; 
+app.listen(PORT, () => {
+  console.log(`Server started at http://locahost:${PORT}`);
 });
 
 module.exports = app;
