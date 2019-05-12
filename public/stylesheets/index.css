@@ -1,0 +1,31 @@
+		:root {
+			  --muted-blue: #9BC4E2; 
+		}
+		.fas {
+			color: white;
+		}
+		body { 
+			padding-top: 150px; 
+		}
+		.navbar, .navbar-brand{
+			background-color: var(--muted-blue);
+			color: white;
+		}
+		.center{
+			text-align:center;
+		}
+		input{
+			font-size:200%;
+			width: 25em;
+			text-align: center;
+		}
+		input:focus{
+			color: gray;
+		}
+		.btn{
+			background-color: var(--muted-blue);
+			font-weight: bold;
+		}
+		.nav-link:hover{
+			font-weight: bold;
+		}
