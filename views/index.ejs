@@ -1,52 +1,38 @@
 <% include ./includes/header %>
 
-<!-- STICKY NAV BAR  -->
-<nav class="navbar fixed-top navbar-light navbar-expand-lg">
-	<!-- logo -->
-	<a class="navbar-brand" href="#"><h2>WeAnimal <i class="fas fa-paw"></i></h2></a>
-
-	<!-- responsive toggle icon -->
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<!-- navbar selections -->
-	<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-		<ul class="navbar-nav">
-	      <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-	      <li class="nav-item"><a class="nav-link" href="contact">Contact Us</a></li>
-	    </ul>
-    </div>
-</nav>
 
 
 <!-- rest of page -->
-<div class="center">
+<div class="container">
 
 	<!-- header question -->
-	<h1> What animal are you trying to identify? <span>&#128062</span></h1><br>
+	<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
+	<h3 class="center animated infinite pulse"> What animal are you trying to identify? </h3><br>
 
 	<!-- input field, prefilled with database animals -->
-	<input type="text" list="languages" value="" id="animal_input">
-	<datalist id="languages">
+	<input type="text" list="animalList" value="" id="animal_input" class="rounded w-100">
+	<div id="animalSelector">
+		
+	</div>
+	<!-- <datalist id="animalList">
+		<select name="animalList" id="">
 		<% for (var i = 0; i < animals.length; i++) { %>
 		 <option value="<%= animals[i] %>">
 		<% } %>
-	</datalist>
+		</select>
+	</datalist> -->
 	<br><br>
 
 	<!-- submit form button, used get so it would show in url -->
 	<form action="" method="get" onsubmit="return checkAnimal()" id="animal_form">
 		<!-- <input type="hidden" name="animal" value="" id="animal_submit"> -->
-		<button type="submit" class="btn btn-lg">Continue</button>
+		<button type="submit" class="btn btn-lg float-right">Continue</button>
 	</form>
 
 </div>
 
 <script>
-
 	function checkAnimal(){
-
 		//gets user input
 		const userInput = $("#animal_input").val().trim().toUpperCase();
 
@@ -63,6 +49,6 @@
 		$("#animal_form").attr('action', 'search/'+userInput);
 		return true;
 	}
-
 </script>
+
 <% include ./includes/footer %>
