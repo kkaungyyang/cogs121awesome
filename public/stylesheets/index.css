@@ -133,3 +133,18 @@
 		.nav-link:hover{
 			font-weight: bold;
 		}
+
+
+		/* index.ejs */
+		input#animal_input.rounded {
+			border: 2px solid var(--muted-blue);
+		}
+
+		datalist#animalList {
+			background-color: pink;	
+			width: 100%; 
+		}
+
+
+
+

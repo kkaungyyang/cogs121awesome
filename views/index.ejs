@@ -3,24 +3,30 @@
 
 
 <!-- rest of page -->
-<div class="center">
+<div class="container">
 
 	<!-- header question -->
-	<h1> What animal are you trying to identify? <span>&#128062</span></h1><br>
+	<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
+	<h3 class="center animated infinite pulse"> What animal are you trying to identify? </h3><br>
 
 	<!-- input field, prefilled with database animals -->
-	<input type="text" list="languages" value="" id="animal_input">
-	<datalist id="languages">
+	<input type="text" list="animalList" value="" id="animal_input" class="rounded w-100">
+	<div id="animalSelector">
+		
+	</div>
+	<!-- <datalist id="animalList">
+		<select name="animalList" id="">
 		<% for (var i = 0; i < animals.length; i++) { %>
 		 <option value="<%= animals[i] %>">
 		<% } %>
-	</datalist>
+		</select>
+	</datalist> -->
 	<br><br>
 
 	<!-- submit form button, used get so it would show in url -->
 	<form action="" method="get" onsubmit="return checkAnimal()" id="animal_form">
 		<!-- <input type="hidden" name="animal" value="" id="animal_submit"> -->
-		<button type="submit" class="btn btn-lg">Continue</button>
+		<button type="submit" class="btn btn-lg float-right">Continue</button>
 	</form>
 
 </div>
