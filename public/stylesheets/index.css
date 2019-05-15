@@ -1,150 +1,153 @@
-		:root {
-			  --muted-blue: #9BC4E2; 
-		}
-		.fas {
-			color: white;
-		}
-		body { 
-			padding-top: 150px; 
-		}
-		.navbar, .navbar-brand{
-			background-color: var(--muted-blue);
-			color: white;
-		}
-		.center{
-			text-align:center;
-		}
-		input{
-			font-size:200%;
-			width: 25em;
-			text-align: center;
-		}
-		input:focus{
-			color: gray;
-		}
-		.btn{
-			background-color: var(--muted-blue);
-			font-weight: bold;
-		}
-		.nav-link:hover{
-			font-weight: bold;
-		}
+:root {
+	  --muted-blue: #9BC4E2; 
+}
+.fas {
+	color: white;
+}
+body { 
+	padding-top: 150px; 
+}
+.navbar, .navbar-brand{
+	background-color: var(--muted-blue);
+	color: white;
+}
+.center{
+	text-align:center;
+}
+input{
+	font-size:200%;
+	width: 25em;
+	text-align: center;
+}
+input:focus{
+	color: gray;
+}
+.btn{
+	background-color: var(--muted-blue);
+	font-weight: bold;
+}
+.nav-link:hover{
+	font-weight: bold;
+}
 
-		.fas {
-			color: white;
-		}
+.fas {
+	color: white;
+}
 
-		body {
-			padding-top: 150px;
-		}
+body {
+	padding-top: 150px;
+}
 
-		.navbar,
-		.navbar-brand {
-			background-color: var(--muted-blue);
-			color: white;
-		}
+.navbar,
+.navbar-brand {
+	background-color: var(--muted-blue);
+	color: white;
+}
 
-		.center {
-			text-align: center;
-		}
+.center {
+	text-align: center;
+}
 
-		input {
-			font-size: 200%;
-			width: 25em;
-			text-align: center;
-		}
+input {
+	font-size: 200%;
+	width: 25em;
+	text-align: center;
+}
 
-		input:focus {
-			color: gray;
-		}
+input:focus {
+	color: gray;
+}
 
-		.btn {
-			font-weight: bold;
-			background-color: var(--muted-blue);
-		}
+.btn {
+	font-weight: bold;
+	background-color: var(--muted-blue);
+}
 
-		.nav-link:hover {
-			font-weight: bold;
-		}
+.nav-link:hover {
+	font-weight: bold;
+}
 
-		.btn-file {
-			position: relative;
-			overflow: hidden;
-		}
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
 
-		.btn-file input[type=file] {
-			position: absolute;
-			top: 0;
-			right: 0;
-			outline: none;
-			cursor: grab;
-			display: inline;
-		}
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	/*outline: none;*/
+	cursor: grab;
+	/*display: inline;*/
+}
 
-		/*hides file name that pops up for image input*/
-		input[type=file] {
-			color: rgba(0, 0, 0, 0);
-		}
+/*hides file name that pops up for image input*/
+input[type=file] {
+	color: rgba(0, 0, 0, 0) !important;
+}
 
-		/*changes bullet points to custom emoji bullets*/
-		ul {
-			list-style: none;
-		}
+/*changes bullet points to custom emoji bullets*/
+ul {
+	list-style: none;
+}
 
-		tr{
-			align-items: flex-start;
-			text-align: center;
-			padding: 0 50px 125px;
-		}
+tr{
+	align-items: flex-start;
+	text-align: center;
+	padding: 0 50px 125px;
+}
 
-		#breed_list tr td:last-child {
-			font-weight: normal;
-			padding-left: 150px;
-		}
-		td li{
-			list-style: none;
-		}
+#breed_list tr td:last-child {
+	font-weight: normal;
+	padding-left: 50px;
+}
+td li{
+	list-style: none;
+}
 
-		.fas{
-			color: white;
-		}
-		body { 
-			padding-top: 150px; 
-		}
-		.navbar, .navbar-brand{
-			background-color: var(--muted-blue);
-			color: white;
-		}
-		.center{
-			text-align:center;
-		}
-		input{
-			font-size:200%;
-			width: 25em;
-			text-align: center;
-		}
-		input:focus{
-			color: gray;
-		}
-		.btn{
-			background-color: var(--muted-blue);
-			font-weight: bold;
-		}
-		.nav-link:hover{
-			font-weight: bold;
-		}
+.fas{
+	color: white;
+}
+body { 
+	padding-top: 150px; 
+}
+.navbar, .navbar-brand{
+	background-color: var(--muted-blue);
+	color: white;
+}
+.center{
+	text-align:center;
+}
+input{
+	font-size:200%;
+	width: 25em;
+	text-align: center;
+}
+input:focus{
+	color: gray;
+}
+.btn{
+	background-color: var(--muted-blue);
+	font-weight: bold;
+}
+.nav-link:hover{
+	font-weight: bold;
+}
 
 
-		/* index.ejs */
-		input#animal_input.rounded {
-			border: 2px solid var(--muted-blue);
-		}
+/* index.ejs */
+input#animal_input.rounded {
+	border: 2px solid var(--muted-blue);
+}
 
-		datalist#animalList {
-			background-color: pink;	
-			width: 100%; 
-		}
+datalist#animalList {
+	background-color: pink;	
+	width: 100%; 
+}
 
+td{
+	text-align:left;
+}
 
 
 
