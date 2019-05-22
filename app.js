@@ -115,11 +115,68 @@ app.get('/', function(req,res){
 	});
 });
 
-app.get('/search/:animal', function(req,res){
-	res.render('search', {
+
+app.get('/upload/:animal', function(req,res){
+	res.render('upload', {
 	 	currentAnimal: req.params.animal
 	 });
 });
+
+app.get('/breed', function(req,res){
+  res.render('breed', {
+		animals: Object.keys(fakeDatabase)
+	});
+});
+
+
+// ui version 1: all collapsible tables
+app.get('/breed/:animal', function(req,res){
+  //currently only dog api
+  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
+    res.render('breed_list',{
+      currentAnimal: req.params.animal,
+      breeds: Object.keys(snapshot.val()),
+      data: snapshot.val()
+    });
+   }).catch( err => {
+    console.log('Error getting info on breeds', err)
+  });
+
+});
+
+
+//ui version 2: 1 info table displayed at top at time
+app.get('/breed2/:animal', function(req,res){
+  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
+    res.render('breed_list2',{
+      currentAnimal: req.params.animal,
+      breeds: Object.keys(snapshot.val()),
+      data: snapshot.val()
+    });
+   }).catch( err => {
+    console.log('Error getting info on breeds', err)
+  });
+});
+
+
+//temp for testing
+app.get('/dogapi', function(req,res){
+
+  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
+    res.send(snapshot.val());
+   }).catch( err => {
+    console.log('Error getting info on breeds', err)
+  });
+
+});
+
+
+// app.get('/breed/:animal/:breed', function(req,res){
+// 	res.send({
+//      currentAnimal: req.params.animal,
+//      currentBreed: req.params.breed
+// 	 });
+// });
 
 
 app.get('/contact', function(req,res){
@@ -145,7 +202,7 @@ app.get('/fetch', function(req,res) {
 
 const PORT = process.env.PORT|| 3000; 
 app.listen(PORT, () => {
-  console.log(`Server started at http://locahost:${PORT}`);
+  console.log(`Server started at http://localhost:${PORT}`);
 });
 
 module.exports = app;

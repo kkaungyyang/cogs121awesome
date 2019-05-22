@@ -1,0 +1,62 @@
+<% include ./includes/header %>
+
+	<!-- rest of page -->
+	<div class="container" style="padding-bottom: 100px">
+
+		<!-- header question -->
+		<h5 class="animated infinite pulse"> Select a breed to learn more!<span>&#128062</span>
+			<button><a href="../breed/<%= currentAnimal %>">alternate view</a></button>
+		</h5>
+		<br>
+		
+		<table class="table" id="breed_details">
+		</table>
+
+		<!-- go through each breed and add a button -->
+		<% for(var i=0; i < breeds.length; i++) { %>
+			<!-- button with breed name changes the viewer for the table of breed info -->
+			<button type="button" class="btn btn-info scroll" style="margin-bottom:5px" onclick="showTable('<%=breeds[i]%>')">
+				<%= breeds[i]%>
+			</button>
+		<% } %>
+
+
+
+	</div>
+
+
+
+
+	<script>
+
+		var api_data = <%- JSON.stringify(data) %>;
+
+		function showTable(breed_name){
+			$('#breed_details').html("");
+			const info_json = api_data[breed_name];
+			const info_keys = Object.keys(info_json);
+			$('#breed_details').append('<thead class="thead-dark"><tr><th scope="col">Category</th><th scope="col">Details</th></tr></thead>');
+			//appends breeds dynamically
+			info_keys.forEach(prop => {
+				$('#breed_details').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
+			});
+		}
+
+		//bind event listeners on dom ready 
+		$(document).ready(function () {
+
+			$('.scroll').click(()=>{
+				$("html, body").animate({ scrollTop: 0}, 600); 
+			}); 
+
+		});
+
+		
+
+			
+
+	</script>
+
+</body>
+
+</html>

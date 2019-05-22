@@ -30,43 +30,6 @@ input:focus{
 	font-weight: bold;
 }
 
-.fas {
-	color: white;
-}
-
-body {
-	padding-top: 150px;
-}
-
-.navbar,
-.navbar-brand {
-	background-color: var(--muted-blue);
-	color: white;
-}
-
-.center {
-	text-align: center;
-}
-
-input {
-	font-size: 200%;
-	width: 25em;
-	text-align: center;
-}
-
-input:focus {
-	color: gray;
-}
-
-.btn {
-	font-weight: bold;
-	background-color: var(--muted-blue);
-}
-
-.nav-link:hover {
-	font-weight: bold;
-}
-
 .btn-file {
 	position: relative;
 	overflow: hidden;
@@ -91,7 +54,8 @@ ul {
 	list-style: none;
 }
 
-tr{
+/* upload photo - breed_details_table style */
+#breed_details tr{
 	align-items: flex-start;
 	text-align: center;
 	padding: 0 50px 125px;
@@ -105,45 +69,11 @@ td li{
 	list-style: none;
 }
 
-.fas{
-	color: white;
-}
-body { 
-	padding-top: 150px; 
-}
-.navbar, .navbar-brand{
-	background-color: var(--muted-blue);
-	color: white;
-}
-.center{
-	text-align:center;
-}
-input{
-	font-size:200%;
-	width: 25em;
-	text-align: center;
-}
-input:focus{
-	color: gray;
-}
-.btn{
-	background-color: var(--muted-blue);
-	font-weight: bold;
-}
-.nav-link:hover{
-	font-weight: bold;
-}
-
-
 /* index.ejs */
 input#animal_input.rounded {
 	border: 2px solid var(--muted-blue);
 }
 
-datalist#animalList {
-	background-color: pink;	
-	width: 100%; 
-}
 
 td{
 	text-align:left;
@@ -151,3 +81,17 @@ td{
 
 
 
+
+
+/* breed.ejs */
+
+.btn-outline-secondary{
+	background-color:transparent;
+}
+
+/* species icon size */
+.icon{
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+}
