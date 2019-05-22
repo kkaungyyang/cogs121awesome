@@ -1,19 +1,12 @@
-:root {
-	  --muted-blue: #9BC4E2; 
-}
-.fas {
-	color: white;
-}
-body { 
-	padding-top: 150px; 
-}
+:root { --muted-blue: #9BC4E2; }
+
+.fas{ color: white; }
+body { padding-top: 150px; }
 .navbar, .navbar-brand{
 	background-color: var(--muted-blue);
 	color: white;
 }
-.center{
-	text-align:center;
-}
+.center { text-align:center; }
 input{
 	font-size:200%;
 	width: 25em;
@@ -69,29 +62,79 @@ td li{
 	list-style: none;
 }
 
+
 /* index.ejs */
-input#animal_input.rounded {
+input#animal_input.rounded-right {
 	border: 2px solid var(--muted-blue);
 }
 
-
-td{
-	text-align:left;
+datalist#animalList {
+	background-color: pink;	
+	width: 100%; 
 }
 
-
-
-
-
-/* breed.ejs */
-
-.btn-outline-secondary{
-	background-color:transparent;
+input#animal_input:focus {
+	outline: none; 
 }
 
-/* species icon size */
-.icon{
+input#animal_input.form-control:focus {
+	box-shadow: none;
+}
+
+.input-group .input-group-text {
+	/* background-color: var(--muted-blue); */
+	border: 2px solid var(--muted-blue) !important;
+	background-color: white;
+} 
+
+
+#myUL {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex; 
+	justify-content: stretch;
+	flex-wrap: wrap; 
+	padding: 20px;
+	border: 1px solid #f1f1f1;
+	border-radius: 5px;
+}
+
+#myUL li a {
+	border: 1px solid #ddd;
+	margin-top: -1px;
+	padding: 5px 15px;
+	text-decoration: none;
+	font-size: 18px;
+	color: black;
+	display: block;
+	border-radius: 5px; 
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	border: 2px solid var(--muted-blue);
+	
+}
+
+#myUL li a:hover:not(.header) {
+	/* background-color: #eee; */
+	background-color: var(--muted-blue);
+}
+
+.icon {
 	width: 100px;
 	height: 100px;
 	margin-right: 10px;
 }
+
+.btn-outline-secondary {
+	background-color: transparent; 
+	border: none;
+}
+.btn-outline-secondary:hover {
+	background-color: var(--muted-blue);
+}
+
+
+
+
+
