@@ -19,7 +19,7 @@ $(document).ready(() => {
     let animal_list = $("#animalSelector #myUL li a"); 
     animal_list.click(element => {
         let value = element.currentTarget.innerHTML; 
-        animal_list.attr('href', `search/${value.toLowerCase()}`);
+        animal_list.attr('href', `upload/${value.toLowerCase()}`);
 
     });
 
