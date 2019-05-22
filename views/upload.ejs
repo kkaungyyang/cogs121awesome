@@ -27,10 +27,26 @@
 
 
 		<div id="breed_results" style="display:none">
-			<h2 style="color:black">Your <%= currentAnimal %> is the following breed(s):<h2>
+			<h2 style="color:black">Your <%= currentAnimal.toLowerCase() %> is the following breed(s):<h2>
+			<div id="breed_chart"></div>
 			<hr>
-			<table id="breed_list" class="container"></table>
+			<table class="table" id="breed_details" style="display:none">
+				<thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Category</th>
+				      <th scope="col">Details</th>
+				    </tr>
+			  	</thead>
+			  	<tbody id="breed_list">
+			  	</tbody>
+			</table>
 		</div>
+
+
+		<button type="button" class="btn btn-lg" id="expand_details" style="display:none" onclick="showBreedDetails()">Click to learn more!</button>
+
+		<br><br>
+		
 
 		<!-- submit form button, used get so it would show in url -->
 		<form action="/" method="get" id="home_form" style="display:none">
@@ -39,8 +55,47 @@
 
 	</div>
 
+
+
+
 	<script>
 
+		//bind event listeners on dom ready 
+		$(document).ready(function () {
+
+			// does not change preview when you cancel out of choosing a photo
+			$('#upload_input').on('click touchstart', function () {
+				$(this).val('');
+			});
+
+			// when a new photo is uploaded, change preview
+			$('#upload_input').on('change', function (e) {
+
+				if (this.files && this.files[0]) {
+					var reader = new FileReader();
+
+					reader.onload = function (e) {
+						$('#upload_image').attr('src', e.target.result);
+					}
+
+					reader.readAsDataURL(this.files[0]);
+				}
+
+				//show submit button now that there's file attached
+				$('#view_results').css('display', 'inline');
+			});
+
+		});
+
+		//show table
+		function showBreedDetails(){
+			//show table of breed details
+			$('#breed_details').css('display', 'inline');
+			//hide click to learn more button
+			$('#expand_details').css('display', 'none');
+		}
+
+		//"loads" information, ajax call to fetch breed results
 		function loadAnimation() {
 
 			//hide buttons, show loading animation
@@ -67,6 +122,8 @@
 						//finished 'loading' to the users eye, displays breeds
 						$('#loading_text').html("Loaded!");
 						$('#breed_results').css('display', 'contents');
+						$('#expand_details').css('display', 'inline');
+						
 
 						//appends breeds dynamically
 						info_keys.forEach(prop => {
@@ -92,34 +149,20 @@
 		}
 
 
-
-
-
-		$(document).ready(function () {
-
-			// does not change preview when you cancel out of choosing a photo
-			$('#upload_input').on('click touchstart', function () {
-				$(this).val('');
-			});
-
-			// when a new photo is uploaded, change preview
-			$('#upload_input').on('change', function (e) {
-
-				if (this.files && this.files[0]) {
-					var reader = new FileReader();
-
-					reader.onload = function (e) {
-						$('#upload_image').attr('src', e.target.result);
-					}
-
-					reader.readAsDataURL(this.files[0]);
-				}
-
-				//show submit button now that there's file attached
-				$('#view_results').css('display', 'inline');
-			});
-
+		//chart to visualize breeds
+		c3.generate({
+			bindto: '#breed_chart',
+		    data: {
+		        // iris data from R
+		        columns: [
+		            ['Labrador Retriever', 10],
+		            ['Golden Retriever', 90],
+		        ],
+		        type : 'pie'
+		    }
 		});
+
+			
 
 	</script>
 
