@@ -1,149 +1,202 @@
-		:root {
-			  --muted-blue: #9BC4E2; 
-		}
-		.fas {
-			color: white;
-		}
-		body { 
-			padding-top: 150px; 
-		}
-		.navbar, .navbar-brand{
-			background-color: var(--muted-blue);
-			color: white;
-		}
-		.center{
-			text-align:center;
-		}
-		input{
-			font-size:200%;
-			width: 25em;
-			text-align: center;
-		}
-		input:focus{
-			color: gray;
-		}
-		.btn{
-			background-color: var(--muted-blue);
-			font-weight: bold;
-		}
-		.nav-link:hover{
-			font-weight: bold;
-		}
+:root {
+		--muted-blue: #9BC4E2; 
+}
+.fas {
+	color: white;
+}
 
-		.fas {
-			color: white;
-		}
+body { 
+	padding-top: 150px; 
+}
+.navbar, .navbar-brand{
+	background-color: var(--muted-blue);
+	color: white;
+}
+.center{
+	text-align:center;
+}
+input{
+	font-size:200%;
+	width: 25em;
+	text-align: center;
+}
+input:focus{
+	color: gray;
+}
+.btn{
+	background-color: var(--muted-blue);
+	font-weight: bold;
+}
+.nav-link:hover{
+	font-weight: bold;
+}
 
-		body {
-			padding-top: 150px;
-		}
+.fas {
+	color: white;
+}
 
-		.navbar,
-		.navbar-brand {
-			background-color: var(--muted-blue);
-			color: white;
-		}
+body {
+	padding-top: 150px;
+}
 
-		.center {
-			text-align: center;
-		}
+.navbar,
+.navbar-brand {
+	background-color: var(--muted-blue);
+	color: white;
+}
 
-		input {
-			font-size: 200%;
-			width: 25em;
-			text-align: center;
-		}
+.center {
+	text-align: center;
+}
 
-		input:focus {
-			color: gray;
-		}
+input {
+	font-size: 200%;
+	width: 25em;
+	text-align: center;
+}
 
-		.btn {
-			font-weight: bold;
-			background-color: var(--muted-blue);
-		}
+input:focus {
+	color: gray;
+}
 
-		.nav-link:hover {
-			font-weight: bold;
-		}
+.btn {
+	font-weight: bold;
+	background-color: var(--muted-blue);
+}
 
-		.btn-file {
-			position: relative;
-			overflow: hidden;
-		}
+.nav-link:hover {
+	font-weight: bold;
+}
 
-		.btn-file input[type=file] {
-			position: absolute;
-			top: 0;
-			right: 0;
-			outline: none;
-			cursor: grab;
-			display: inline;
-		}
-
-		/*hides file name that pops up for image input*/
-		input[type=file] {
-			color: rgba(0, 0, 0, 0);
-		}
-
-		/*changes bullet points to custom emoji bullets*/
-		ul {
-			list-style: none;
-		}
-
-		tr{
-			align-items: flex-start;
-			text-align: center;
-			padding: 0 50px 125px;
-		}
-
-		#breed_list tr td:last-child {
-			font-weight: normal;
-			padding-left: 150px;
-		}
-		td li{
-			list-style: none;
-		}
-
-		.fas{
-			color: white;
-		}
-		body { 
-			padding-top: 150px; 
-		}
-		.navbar, .navbar-brand{
-			background-color: var(--muted-blue);
-			color: white;
-		}
-		.center{
-			text-align:center;
-		}
-		input{
-			font-size:200%;
-			width: 25em;
-			text-align: center;
-		}
-		input:focus{
-			color: gray;
-		}
-		.btn{
-			background-color: var(--muted-blue);
-			font-weight: bold;
-		}
-		.nav-link:hover{
-			font-weight: bold;
-		}
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
 
 
-		/* index.ejs */
-		input#animal_input.rounded {
-			border: 2px solid var(--muted-blue);
-		}
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	outline: none;
+	cursor: grab;
+	display: inline;
+}
 
-		datalist#animalList {
-			background-color: pink;	
-			width: 100%; 
-		}
+/*hides file name that pops up for image input*/
+input[type=file] {
+	color: rgba(0, 0, 0, 0);
+}
+
+
+
+/*changes bullet points to custom emoji bullets*/
+ul {
+	list-style: none;
+}
+
+tr{
+	align-items: flex-start;
+	text-align: center;
+	padding: 0 50px 125px;
+}
+
+#breed_list tr td:last-child {
+	font-weight: normal;
+	padding-left: 150px;
+}
+td li{
+	list-style: none;
+}
+
+.fas{
+	color: white;
+}
+body { 
+	padding-top: 150px; 
+}
+.navbar, .navbar-brand{
+	background-color: var(--muted-blue);
+	color: white;
+}
+.center{
+	text-align:center;
+}
+input{
+	font-size:200%;
+	width: 25em;
+	text-align: center;
+}
+input:focus{
+	color: gray;
+}
+.btn{
+	background-color: var(--muted-blue);
+	font-weight: bold;
+}
+.nav-link:hover{
+	font-weight: bold;
+}
+
+
+/* index.ejs */
+input#animal_input.rounded-right {
+	border: 2px solid var(--muted-blue);
+}
+
+datalist#animalList {
+	background-color: pink;	
+	width: 100%; 
+}
+
+input#animal_input:focus {
+	outline: none; 
+}
+
+input#animal_input.form-control:focus {
+	box-shadow: none;
+}
+
+.input-group .input-group-text {
+	/* background-color: var(--muted-blue); */
+	border: 2px solid var(--muted-blue) !important;
+	background-color: white;
+} 
+
+
+#myUL {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex; 
+	justify-content: stretch;
+	flex-wrap: wrap; 
+	padding: 20px;
+	border: 1px solid #f1f1f1;
+	border-radius: 5px;
+}
+
+#myUL li a {
+	border: 1px solid #ddd;
+	margin-top: -1px;
+	padding: 5px 15px;
+	text-decoration: none;
+	font-size: 18px;
+	color: black;
+	display: block;
+	border-radius: 5px; 
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	border: 2px solid var(--muted-blue);
+	
+}
+
+#myUL li a:hover:not(.header) {
+	/* background-color: #eee; */
+	background-color: var(--muted-blue);
+}
+
+
 
 
 

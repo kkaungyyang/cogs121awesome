@@ -7,12 +7,31 @@
 
 	<!-- header question -->
 	<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
-	<h3 class="center animated infinite pulse"> What animal are you trying to identify? </h3><br>
+	<h3 class="float-left animated  pulse"> What animal are you trying to identify? </h3><br>
 
 	<!-- input field, prefilled with database animals -->
-	<input type="text" list="animalList" value="" id="animal_input" class="rounded w-100">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text border border-right-0"><i class="text-primary fas fa-search"></i></span>
+		</div>
+		<!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+			aria-describedby="basic-addon1"> -->
+		<input type="text" list="animalList" value="" id="animal_input" class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1" placeholder="type in an animal ... " onkeyup="findAnimal()">
+	</div>
+
+
 	<div id="animalSelector">
-		
+		<ul id="myUL">
+			<li><a href="#">Bird</a></li>
+			<li><a href="#">Cat</a></li>
+			<li><a href="#">Dog</a></li>
+			<li><a href="#">Fish</a></li>
+			<li><a href="#">Hamster</a></li>
+			<li><a href="#">Horse</a></li>
+			<li><a href="#">Monkey</a></li>
+			<li><a href="#">Rabbit</a></li>
+			<li><a href="#">Unicorn</a></li>
+		</ul>
 	</div>
 	<!-- <datalist id="animalList">
 		<select name="animalList" id="">
@@ -21,34 +40,30 @@
 		<% } %>
 		</select>
 	</datalist> -->
-	<br><br>
 
 	<!-- submit form button, used get so it would show in url -->
-	<form action="" method="get" onsubmit="return checkAnimal()" id="animal_form">
-		<!-- <input type="hidden" name="animal" value="" id="animal_submit"> -->
-		<button type="submit" class="btn btn-lg float-right">Continue</button>
-	</form>
 
 </div>
 
+
 <script>
-	function checkAnimal(){
-		//gets user input
-		const userInput = $("#animal_input").val().trim().toUpperCase();
-
-		// array of all current animals in our database
-		const total_animals = <%- JSON.stringify(animals) %>.map(a => a.toUpperCase());
-
-		//if user input is valid animal, continue. otherwise, alert and stay on page
-		if ( ($.inArray(userInput, total_animals) == -1 )){
-			// user input isn't in valid animal choices
-			alert("Your input is not an animal our system can currently identify. Feel free to send us feedback or try again with another animal.")
-			return false;
+	function findAnimal() {
+		var input, filter, ul, li, a, i, txtValue;
+		input = document.getElementById("animal_input");
+		filter = input.value.toUpperCase();
+		ul = document.getElementById("myUL");
+		li = ul.getElementsByTagName("li");
+		for (i = 0; i < li.length; i++) {
+			a = li[i].getElementsByTagName("a")[0];
+			txtValue = a.textContent || a.innerText;
+			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				li[i].style.display = "";
+			} else {
+				li[i].style.display = "none";
+			}
 		}
-		$("#animal_submit").val(userInput);
-		$("#animal_form").attr('action', 'search/'+userInput);
-		return true;
 	}
+
 </script>
 
 <% include ./includes/footer %>
