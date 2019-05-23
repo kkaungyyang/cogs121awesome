@@ -1,52 +1,151 @@
 <% include ./includes/header %>
 
 
-
-<!-- rest of page -->
+<!-- page content -->
 <div class="container">
 
-	<!-- header question -->
-	<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
-	<h3 class="float-left animated  pulse"> What animal are you trying to identify? </h3><br>
 
-	<!-- input field, prefilled with database animals -->
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text border border-right-0"><i class="text-primary fas fa-search"></i></span>
+	<!-- Scroll Section #1 -- CHOOSE ANIMAL TO IDENTIFY --> 
+	<div id="step1">
+
+		<!-- section title -->
+		<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
+		<h3 class="float-left animated pulse"> What animal are you trying to identify? </h3><br>
+
+		<!-- input field, prefilled with database animals -->
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text border border-right-0">
+					<!-- search icon -->
+					<i class="text-primary fas fa-search"></i>
+				</span>
+			</div>
+			<!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+				aria-describedby="basic-addon1"> -->
+			<input type="text" list="animalList" value="" id="animal_input" class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1" placeholder="search an animal ... " onkeyup="findAnimal()">
 		</div>
-		<!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-			aria-describedby="basic-addon1"> -->
-		<input type="text" list="animalList" value="" id="animal_input" class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1" placeholder="search an animal ... " onkeyup="findAnimal()">
+
+		<!-- autofill animal species selector buttons -->
+		<div id="animalSelector">
+			<ul id="myUL">
+				<% animals.forEach( type => { %>
+				<li class="scroll"><%=type%></li>
+				<% }); %>
+			</ul>
+		</div>
+
 	</div>
 
 
-	<div id="animalSelector">
-		<ul id="myUL">
-			<li><a href="#">Bird</a></li>
-			<li><a href="#">Cat</a></li>
-			<li><a href="#">Dog</a></li>
-			<li><a href="#">Fish</a></li>
-			<li><a href="#">Hamster</a></li>
-			<li><a href="#">Horse</a></li>
-			<li><a href="#">Monkey</a></li>
-			<li><a href="#">Rabbit</a></li>
-			<li><a href="#">Unicorn</a></li>
-		</ul>
-	</div>
-	<!-- <datalist id="animalList">
-		<select name="animalList" id="">
-		<% for (var i = 0; i < animals.length; i++) { %>
-		 <option value="<%= animals[i] %>">
-		<% } %>
-		</select>
-	</datalist> -->
+	<!-- Scroll Section #2 -- UPLOAD PHOTO --> 
 
-	<!-- submit form button, used get so it would show in url -->
+	<div class="center init-hide" id="step2">
+
+		<!-- section title -->
+		<h1 class="text-left">Step 2<span> &#128062</span></h1><br>
+		<h3 class="animated pulse"> Upload a photo of your <b> <span class="currAnimal"></span></b>! </h3><br>
+
+		<!-- default photo is 'add photo' icon -->
+		<img id="upload_image" src="../images/add_icon.jpg" onclick="simulateUpload()"><br><br>
+
+		<!-- upload buttons -->
+		<div id="upload_buttons">
+			<!-- input field that strictly accepts images -->
+			<span class="btn btn-default btn-file btn-lg">
+				Browse...<input type="file" accept="image/*" id="upload_input">
+			</span>
+			<!-- submit button -->
+			<button type="submit" class="btn btn-lg init-hide" style="display:inline" id="view_results"
+				onclick="loadAnimation()">View Results!</button>
+		</div>
+
+		<!-- upload animation (currently text) -->
+		<h2 class="load-txt init-hide" id="process_text">Scanning....<h2>
+		<h2 class="load-txt init-hide" id="loaded_text">Loaded!<h2>
+	</div>
+
+
+	
+	<!-- Scroll Section #3 -- EXPLORE RESULTS --> 
+	
+	<div class="center init-hide" id="step3">
+
+		<!-- section title -->
+		<h1 class="text-left">Step 3<span> &#128062</span></h1><br>
+		<div id="breed_results" style="display:contents">
+			<h2 style="color:black">Your <span class="currAnimal"></span> is the following breed(s):</h2>
+			<div id="breed_chart"></div>
+			<hr>
+			<table class="table init-hide" id="breed_details" style="display:inline">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Category</th>
+						<th scope="col">Details</th>
+					</tr>
+					</thead>
+					<tbody id="breed_list">
+					</tbody>
+			</table>
+		</div>
+
+
+		<button type="button" class="btn btn-lg" id="expand_details" style="display:inline" onclick="showBreedDetails()">Click to learn more!</button>
+
+		<br><br>
+
+		<button type="submit" class="btn btn-lg scroll">Upload again</button>
+
+
+	</div>
+
+
+
 
 </div>
 
 
+
+
+
+
 <script>
+
+var currAnimal = "dog";
+
+	$(document).ready(() => {
+	
+		// auto selects animal_input on load
+		$("#animal_input").select();
+
+		// animal button selectors under input box
+		let animal_list = $("#animalSelector #myUL li"); 
+		animal_list.click(element => {
+			$("#step2").show();
+			let value = element.currentTarget.innerHTML.toLowerCase(); //species name clicked
+			// animal_list.attr('href', '#step2'); //click to slow scroll to step2
+			// animal_list.attr('class', 'scroll'); //for slow scroll
+			$(".currAnimal").html(value); //fill in all span elements for species
+			currAnimal = value; //set global var
+		});
+
+		//slow scroll step1 to step2
+		$('#step1 .scroll').click(()=>{
+			$('html, body').animate({
+				scrollTop: $( '#step2' ).offset().top
+			}, 'slow');
+		}); 
+
+		//slow scroll step 3 to top
+		$('#step3 .scroll').click(()=>{
+			setTimeout( ()=>{
+				clearAll();
+			}, 800);
+			$('html, body').animate({scrollTop: 0 }, 'slow');
+		}); 
+
+
+	}); 
+
 	function findAnimal() {
 		var input, filter, ul, li, a, i, txtValue;
 		input = document.getElementById("animal_input");
@@ -65,5 +164,150 @@
 	}
 
 </script>
+
+
+
+
+<script>
+
+		//bind event listeners on dom ready 
+		$(document).ready(function () {
+
+			$('.init-hide').hide();
+
+			// does not change preview when you cancel out of choosing a photo
+			$('#upload_input').on('click touchstart', function () {
+				$(this).val('');
+			});
+
+			// when a new photo is uploaded, change preview
+			$('#upload_input').on('change', function (e) {
+
+				if (this.files && this.files[0]) {
+					var reader = new FileReader();
+
+					reader.onload = function (e) {
+						$('#upload_image').attr('src', e.target.result);
+					}
+
+					reader.readAsDataURL(this.files[0]);
+				}
+
+				//show submit button now that there's file attached
+				$('#view_results').show();
+
+			});
+
+		});
+
+		//restart upload process, clear all
+		function clearAll(){
+			//can either clear all inputs to reset to new 
+			$('.init-hide').hide();
+			// $('#upload_image').val("");
+			//or just reload 
+			location.reload();
+		}
+
+		//simulate upload through file input button by clicking default upload img
+		function simulateUpload(){
+			$('#upload_input').trigger('click');
+		}
+
+		//show table of specific breed details
+		function showBreedDetails(){
+			//show table of breed details
+			$('#breed_details').show();
+			//hide click to learn more button
+			$('#expand_details').hide();
+		}
+
+		//"loads" information, ajax call to fetch breed results
+		function loadAnimation() {
+
+			//hide buttons, show loading animation
+			$('#upload_buttons').hide();
+			$('#process_text').show();
+
+			//set timeout temporarily so you can see the "loading" above
+			setTimeout(() => {
+				//finished 'loading' to the users eye, displays breed results
+				$('#process_text').hide(); //loading text
+				$('#loaded_text').show();
+
+				$('#step3').show();	//displays hidden sections
+				// $('#breed_results').show();
+				// $('#expand_details').show();
+
+				setTimeout( ()=>{
+					$('html, body').animate({ //slow scrolls 
+						scrollTop: $( '#step3' ).offset().top
+					}, 'slow');
+				},500);
+
+			}, 1000);
+
+			//TODO: implement real backend
+			//store file on firebase, get url back
+			//get request to weanimal.herokuapp with url appended
+			//parse data we get back for breeds, then insert those breeds
+			//below into ajax call "fake breed" area
+
+			//things to execute during loading animation
+			const fakeBreed = 'Golden Retriever'
+	
+				//ajax call to fetch details from db
+				$.ajax({
+					url: '/fetch',
+					type: 'GET',
+					data: { species: currAnimal, breed: fakeBreed },
+					dataType: 'json',
+					success: function (data) {
+						//grabs response data as json  
+						// const breed_json = JSON.parse(data);
+						const info_json = data;
+						const info_keys = Object.keys(info_json);
+						
+						//appends breeds dynamically
+						info_keys.forEach(prop => {
+							if (prop != 'temperament') {
+								$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
+							} else {
+								let list = '';
+								info_json[prop].split(',').forEach(element => {
+									list += `<li>${element}</li>`;
+								});
+								$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
+							}
+						});
+
+					},
+					error: function (request, error) {
+						console.log("AJAX Request Error: " + JSON.stringify(request));
+					}
+				});
+
+
+		}
+
+
+
+		//chart to visualize breeds
+		c3.generate({
+			bindto: '#breed_chart',
+		    data: {
+		        // iris data from R
+		        columns: [
+		            ['Labrador Retriever', 10],
+		            ['Golden Retriever', 90],
+		        ],
+		        type : 'pie'
+		    }
+		});
+
+			
+
+	</script>
+
 
 <% include ./includes/footer %>

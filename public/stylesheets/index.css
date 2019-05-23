@@ -50,10 +50,10 @@ ul {
 /* upload photo - breed_details_table style */
 #breed_details tr{
 	align-items: flex-start;
-	text-align: center;
+	text-align: left;
 	padding: 0 50px 125px;
+	size: small;
 }
-
 #breed_list tr td:last-child {
 	font-weight: normal;
 	padding-left: 50px;
@@ -96,11 +96,11 @@ input#animal_input.form-control:focus {
 	justify-content: stretch;
 	flex-wrap: wrap; 
 	padding: 20px;
-	border: 1px solid #f1f1f1;
-	border-radius: 5px;
+	/* border: 1px solid #f1f1f1; */
+	/* border-radius: 5px; */
 }
 
-#myUL li a {
+#myUL li{
 	border: 1px solid #ddd;
 	margin-top: -1px;
 	padding: 5px 15px;
@@ -115,9 +115,10 @@ input#animal_input.form-control:focus {
 	
 }
 
-#myUL li a:hover:not(.header) {
+#myUL li:hover:not(.header) {
 	/* background-color: #eee; */
 	background-color: var(--muted-blue);
+	cursor: grab;
 }
 
 .icon {
@@ -137,4 +138,19 @@ input#animal_input.form-control:focus {
 
 
 
+#step2, #step3{
+	padding-top: 100px; 
+	margin-top: 10px;
+}
 
+
+/* default upload icon */
+#upload_image{
+	width: 20%;
+	border: black solid 1px;
+	cursor: grab;
+}
+
+.load-text{
+	color:green;
+}

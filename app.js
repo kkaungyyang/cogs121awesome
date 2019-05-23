@@ -74,13 +74,17 @@ app.use(bodyParser.json());
 
 
 const fakeDatabase = {
-  'Dog':{}, 
   'Cat':{},
+  'Dog':{}, 
   'Bird':{},
+  'Fish':{},
   'Hamster':{},
   'Horse':{},
-  'Rabbit':{}
+  'Monkey':{},
+  'Rabbit':{},
+  'Unicorn':{}
 };
+
 
 //  APP ROUTE 
 const breedDatabase = {
@@ -129,7 +133,7 @@ app.get('/breed', function(req,res){
 });
 
 
-// ui version 1: all collapsible tables
+// ui version 1: all collapsible 
 app.get('/breed/:animal', function(req,res){
   //currently only dog api
   firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
