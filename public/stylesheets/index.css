@@ -48,7 +48,7 @@ ul {
 }
 
 /* upload photo - breed_details_table style */
-#breed_tables tr{
+#breed_tables tr, #breed_details tr{
 	align-items: flex-start;
 	text-align: left;
 	padding: 0 50px 125px;
