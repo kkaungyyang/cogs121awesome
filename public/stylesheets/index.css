@@ -48,13 +48,13 @@ ul {
 }
 
 /* upload photo - breed_details_table style */
-#breed_details tr{
+#breed_tables tr{
 	align-items: flex-start;
 	text-align: left;
 	padding: 0 50px 125px;
 	size: small;
 }
-#breed_list tr td:last-child {
+.table_append tr td:last-child {
 	font-weight: normal;
 	padding-left: 50px;
 }
@@ -137,9 +137,9 @@ input#animal_input.form-control:focus {
 
 
 
-
 #step2, #step3{
 	padding-top: 100px; 
+	padding-bottom: 100px;
 	margin-top: 10px;
 }
 

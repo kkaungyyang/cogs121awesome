@@ -49,7 +49,7 @@
 
 		<!-- default photo is 'add photo' icon -->
 		<img id="upload_image" src="../images/add_icon.jpg" onclick="simulateUpload()"><br><br>
-
+		
 		<!-- upload buttons -->
 		<div id="upload_buttons">
 			<p class="uploader-light-blue-button">
@@ -59,18 +59,36 @@
 
 			<!-- submit button -->
 			<button type="submit" class="btn btn-lg init-hide" style="display:inline" id="view_results"
-				onclick="loadAnimation()">View Results!</button>
+				onclick="fetchResults()">View Results!</button>
 		</div>
 
 		<!-- upload animation (currently text) -->
-		<h2 class="load-txt init-hide" id="process_text">Scanning....<h2>
-				<h2 class="load-txt init-hide" id="loaded_text">Loaded!<h2>
+		<h2 class="load-text init-hide" id="process_text">Scanning....<h2>
+		<h2 class="load-text init-hide" id="loaded_text">Loaded!<h2>
 	</div>
 
 
 
-	<!-- Scroll Section #3 -- EXPLORE RESULTS -->
+	<!-- templates -->
+	<div id="table_tmpl" class="init-hide">
+			<table class="table" style="display:inline">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Category</th>
+						<th scope="col">Details</th>
+					</tr>
+				</thead>
+				<tbody class="table_append">
+				</tbody>
+			</table>
+	</div>
 
+
+
+
+	
+	<!-- Scroll Section #3 -- EXPLORE RESULTS --> 
+	
 	<div class="center init-hide" id="step3">
 
 		<!-- section title -->
@@ -80,15 +98,16 @@
 			<div id="breed_chart"></div>
 			<hr>
 			<table class="table init-hide" id="breed_details" style="display:inline">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Category</th>
-						<th scope="col">Details</th>
-					</tr>
-				</thead>
-				<tbody id="breed_list">
-				</tbody>
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Category</th>
+							<th scope="col">Details</th>
+						</tr>
+					</thead>
+					<tbody id="breed_list">
+					</tbody>
 			</table>
+			<div id="breed_tables" class="init-hide"></div>
 		</div>
 
 
@@ -98,16 +117,12 @@
 		<br><br>
 
 		<button type="submit" class="btn btn-lg scroll">Upload again</button>
-
-
 	</div>
 
 
 
 
 </div>
-
-
 
 
 
@@ -203,7 +218,8 @@
 
 	//simulate upload through file input button by clicking default upload img
 	function simulateUpload() {
-		$('#upload_input').trigger('click');
+		//TODO: find where this button is so i can click it
+		$('button.uploadcare--widget__button uploadcare--widget__button_type_open').trigger('click');
 	}
 
 	//show table of specific breed details
@@ -214,72 +230,151 @@
 		$('#expand_details').hide();
 	}
 
+	
 	//"loads" information, ajax call to fetch breed results
-	function loadAnimation() {
+	function fetchResults() {
 
 		//hide buttons, show loading animation
 		$('#upload_buttons').hide();
 		$('#process_text').show();
 
 
-		//set timeout temporarily so you can see the "loading" above
-		setTimeout(() => {
-			//finished 'loading' to the users eye, displays breed results
-			$('#process_text').hide(); //loading text
-			$('#loaded_text').show();
+		//TODO: store file on firebase, get url back
+		
+		
+		//this is temp url from manual input
+		// const pic_url = $('#temp_url').val();
+		// const pic_url = 'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg';
+		// {key: breed, val: %}
+		// const breed_breakdown = {};
+		// [['breed','#'],...] format for pie chart
+		// const chart_val = [];
 
-			$('#step3').show();	//displays hidden sections
-			// $('#breed_results').show();
-			// $('#expand_details').show();
-
-			setTimeout(() => {
-				$('html, body').animate({ //slow scrolls 
-					scrollTop: $('#step3').offset().top
-				}, 'slow');
-			}, 500);
-
-		}, 1000);
 
 		const imageUrl = $('#upload_input').attr('value');
-		//ajax call to fetch details from db
-		$.ajax({
-			url: '/mlapi',
-			type: 'GET',
-			data: { imageUrl: imageUrl },
-			dataType: 'json',
-			success: function (data) {
-				// Parse result of ML for chart visualization
-				let breedPercents = [];
+
+
+		//ajax call, send dog photo URL through GET request to get breakdown of breed-percentages
+		$.get( '/mlapi', {imageUrl: imageUrl} )
+		.always( ()=>{
+			console.log("Done sending URL and requesting ML results.");
+		})
+		.fail(function(xhr, status, error){
+			//reset buttons
+			$('#upload_buttons').show();
+			$('#process_text').hide();
+			alert("Error uploading photo to server, please try again.");
+			console.log("AJAX Request Error: " + JSON.stringify(xhr));
+		})
+		.done(function(data) {
+			// Parse result of ML for chart visualization
+			let breedPercents = [];
 				data.forEach(breedStat => {
 					let info = breedStat.split('%\t');
 					let percent = parseFloat(info[0]);
 
 					// Capitalize first letter of each word
-					let breed = info[1].split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-					breedPercents.push([breed, percent]);
+					let breedName = info[1].toLowerCase().replace(/ /g,"").replace(/_/g," ").replace("bullterrier", "bull terrier");
+					breedName = breed_name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+					// let breed = info[1].split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+					breedPercents.push([breedName, percent]);
 				});
-
-				//chart to visualize breeds
-				c3.generate({
-					bindto: '#breed_chart',
-					data: {
-						// iris data from R
-						columns: breedPercents,
-						type: 'pie',
-						onclick: function (breed, percent) {
-							console.log(breed);
-							readBreedInfo(breed.name);
-						}
+			console.log("Done 1: ML results parsed");
+		})
+		// .done(function(data) {
+		// 	console.log("Check results: ");
+		// 	Object.keys(breed_breakdown).forEach(elem=>{
+		// 		console.log(elem, breed_breakdown[elem]);
+		// 	});
+		// })
+		.done(function(data) {
+			//generate chart to visualize breeds
+			c3.generate({
+				bindto: '#breed_chart',
+				data: {
+					// iris data from R
+					columns: breedPercents,
+					type: 'pie',
+					onclick: function (breed, percent) {
+						console.log(breed);
+						readBreedInfo(breed.name);
 					}
-				});
-
-			},
-			error: function (request, error) {
-				console.log("AJAX Request Error: " + JSON.stringify(request));
-			}
+				}
+			});
+			console.log("Done 2: Chart generated");
+		})
+		.done(function(data) {
+			//for each identified breed, fetch breed details from db
+			console.log( "success 2" );
+			Object.keys(breed_breakdown).forEach( (b)=>{ 
+				//dynamically adds tables, helper function below
+				fetchBreedDetails(b); 
+			});
+			console.log("Done 3: Tables created");
+		})
+		.done( ()=>{
+			//finished data fetching; change loading animation and display results
+			$('#process_text').hide(); //loading text
+			$('#loaded_text').show();
+			$('#step3').show();	//displays step3 hidden section
+			
+			//slow scroll from step2 to step3 after data fetch is complete
+			setTimeout( ()=>{
+				$('html, body').animate({
+					scrollTop: $( '#step3' ).offset().top
+				}, 'slow');
+			},500);
+			
+			console.log("Done 4: Data loaded; show step 3");
 		});
+		
 
-	}
+		//TODO: deal with error when breed is not in database
+
+		//helper function to fetch details from db per breed
+		function fetchBreedDetails(breedName){
+
+			//ajax call to fetch details from db
+			$.ajax({
+				url: '/fetch',
+				type: 'GET',
+				data: { species: currAnimal, breed: breedName},
+				dataType: 'json',
+				beforeSend: ()=>{
+					console.log("Breed requested is: ", breedName);
+				},
+				success: function (data) {
+					console.log(breedName, " exists in DogAPI db");
+					
+					//grabs response data as json
+					const info_json = data;
+					const info_keys = Object.keys(info_json);
+
+					//add new table for current breed
+					$('#breed_tables').append( $('#table_tmpl').html() );
+
+					//appends details dynamically
+					info_keys.forEach(prop => {
+						if (prop != 'temperament') {
+							$('.table_append:last').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
+						} else {
+							let list = '';
+							info_json[prop].split(',').forEach(element => {
+								list += `<li>${element}</li>`;
+							});
+							$('.table_append:last').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
+						}
+					});
+					
+					//TODO: move table_tmpl down and append to nth last child(2)
+				},
+				error: function (request, error) {
+					console.log("AJAX Request Error: " + JSON.stringify(request));
+				}
+			});
+
+		}//end of fetchBreedDetails helper function
+
 
 	function readBreedInfo(breed) {
 		$.ajax({
@@ -292,7 +387,7 @@
 				// No information in DB on the given dog breed
 				if (!data) {
 					$('#breed_list').append('<p>No information available on this breed</p>');
-					$('#breed_details').show();
+					$('#breed_results').show();
 					return;
 				}
 				
@@ -312,7 +407,7 @@
 						$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
 					}
 				});
-				$('#breed_details').show();
+				$('#breed_results').show();
 
 			},
 			error: function (request, error) {
@@ -320,6 +415,17 @@
 			}
 		});
 	}
+
+
+
+
+
+
+
+	} //end of fetchResults 
+
+
+
 
 
 </script>
