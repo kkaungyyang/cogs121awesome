@@ -292,8 +292,10 @@
 				// No information in DB on the given dog breed
 				if (!data) {
 					$('#breed_list').append('<p>No information available on this breed</p>');
+					$('#breed_details').show();
 					return;
 				}
+				
 				// Json object with facts on a dog breed
 				const info_json = data;
 				const info_keys = Object.keys(info_json);
