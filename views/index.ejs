@@ -5,7 +5,7 @@
 <div class="container">
 
 
-	<!-- Scroll Section #1 -- CHOOSE ANIMAL TO IDENTIFY --> 
+	<!-- Scroll Section #1 -- CHOOSE ANIMAL TO IDENTIFY -->
 	<div id="step1">
 
 		<!-- section title -->
@@ -22,7 +22,9 @@
 			</div>
 			<!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username"
 				aria-describedby="basic-addon1"> -->
-			<input type="text" list="animalList" value="" id="animal_input" class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1" placeholder="search an animal ... " onkeyup="findAnimal()">
+			<input type="text" list="animalList" value="" id="animal_input"
+				class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1"
+				placeholder="search an animal ... " onkeyup="findAnimal()">
 		</div>
 
 		<!-- autofill animal species selector buttons -->
@@ -37,7 +39,7 @@
 	</div>
 
 
-	<!-- Scroll Section #2 -- UPLOAD PHOTO --> 
+	<!-- Scroll Section #2 -- UPLOAD PHOTO -->
 
 	<div class="center init-hide" id="step2">
 
@@ -50,10 +52,11 @@
 
 		<!-- upload buttons -->
 		<div id="upload_buttons">
-			<!-- input field that strictly accepts images -->
-			<span class="btn btn-default btn-file btn-lg">
-				Browse...<input type="file" accept="image/*" id="upload_input">
-			</span>
+			<p class="uploader-light-blue-button">
+				<input id="upload_input" type="hidden" role="uploadcare-uploader" data-image-shrink="512x512 50%"
+					data-crop="free" />
+			</p>
+
 			<!-- submit button -->
 			<button type="submit" class="btn btn-lg init-hide" style="display:inline" id="view_results"
 				onclick="loadAnimation()">View Results!</button>
@@ -61,13 +64,13 @@
 
 		<!-- upload animation (currently text) -->
 		<h2 class="load-txt init-hide" id="process_text">Scanning....<h2>
-		<h2 class="load-txt init-hide" id="loaded_text">Loaded!<h2>
+				<h2 class="load-txt init-hide" id="loaded_text">Loaded!<h2>
 	</div>
 
 
-	
-	<!-- Scroll Section #3 -- EXPLORE RESULTS --> 
-	
+
+	<!-- Scroll Section #3 -- EXPLORE RESULTS -->
+
 	<div class="center init-hide" id="step3">
 
 		<!-- section title -->
@@ -82,14 +85,15 @@
 						<th scope="col">Category</th>
 						<th scope="col">Details</th>
 					</tr>
-					</thead>
-					<tbody id="breed_list">
-					</tbody>
+				</thead>
+				<tbody id="breed_list">
+				</tbody>
 			</table>
 		</div>
 
 
-		<button type="button" class="btn btn-lg" id="expand_details" style="display:inline" onclick="showBreedDetails()">Click to learn more!</button>
+		<button type="button" class="btn btn-lg" id="expand_details" style="display:inline"
+			onclick="showBreedDetails()">Click to learn more!</button>
 
 		<br><br>
 
@@ -110,15 +114,15 @@
 
 <script>
 
-var currAnimal = "dog";
+	var currAnimal = "dog";
 
 	$(document).ready(() => {
-	
+
 		// auto selects animal_input on load
 		$("#animal_input").select();
 
 		// animal button selectors under input box
-		let animal_list = $("#animalSelector #myUL li"); 
+		let animal_list = $("#animalSelector #myUL li");
 		animal_list.click(element => {
 			$("#step2").show();
 			let value = element.currentTarget.innerHTML.toLowerCase(); //species name clicked
@@ -129,22 +133,22 @@ var currAnimal = "dog";
 		});
 
 		//slow scroll step1 to step2
-		$('#step1 .scroll').click(()=>{
+		$('#step1 .scroll').click(() => {
 			$('html, body').animate({
-				scrollTop: $( '#step2' ).offset().top
+				scrollTop: $('#step2').offset().top
 			}, 'slow');
-		}); 
+		});
 
 		//slow scroll step 3 to top
-		$('#step3 .scroll').click(()=>{
-			setTimeout( ()=>{
+		$('#step3 .scroll').click(() => {
+			setTimeout(() => {
 				clearAll();
 			}, 800);
-			$('html, body').animate({scrollTop: 0 }, 'slow');
-		}); 
+			$('html, body').animate({ scrollTop: 0 }, 'slow');
+		});
 
 
-	}); 
+	});
 
 	function findAnimal() {
 		var input, filter, ul, li, a, i, txtValue;
@@ -170,144 +174,195 @@ var currAnimal = "dog";
 
 <script>
 
-		//bind event listeners on dom ready 
-		$(document).ready(function () {
+	//bind event listeners on dom ready 
+	$(document).ready(function () {
 
-			$('.init-hide').hide();
+		$('.init-hide').hide();
 
-			// does not change preview when you cancel out of choosing a photo
-			$('#upload_input').on('click touchstart', function () {
-				$(this).val('');
-			});
+		// does not change preview when you cancel out of choosing a photo
+		$('#upload_input').on('click touchstart', function () {
+			$(this).val('');
+		});
 
-			// when a new photo is uploaded, change preview
-			$('#upload_input').on('change', function (e) {
+		// when a new photo is uploaded, change preview
+		$('#upload_input').on('data-attribute-changed', function (e) {
+			debugger;
+			// if (this.files && this.files[0]) {
+			// 	var reader = new FileReader();
 
-				if (this.files && this.files[0]) {
-					var reader = new FileReader();
+			// 	reader.onload = function (e) {
+			// 		$('#upload_image').attr('src', e.target.result);
+			// 	}
 
-					reader.onload = function (e) {
-						$('#upload_image').attr('src', e.target.result);
-					}
+			// 	reader.readAsDataURL(this.files[0]);
+			// }
 
-					reader.readAsDataURL(this.files[0]);
-				}
-
-				//show submit button now that there's file attached
-				$('#view_results').show();
-
-			});
+			//show submit button now that there's file attached
+			$('#view_results').show();
 
 		});
 
-		//restart upload process, clear all
-		function clearAll(){
-			//can either clear all inputs to reset to new 
-			$('.init-hide').hide();
-			// $('#upload_image').val("");
-			//or just reload 
-			location.reload();
-		}
+		const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+		widget.onUploadComplete((info) => {
+			$('#upload_image').attr('src', info.cdnUrl);
+			$('#view_results').show();
+		})
+	});
 
-		//simulate upload through file input button by clicking default upload img
-		function simulateUpload(){
-			$('#upload_input').trigger('click');
-		}
+	//restart upload process, clear all
+	function clearAll() {
+		//can either clear all inputs to reset to new 
+		$('.init-hide').hide();
+		// $('#upload_image').val("");
+		//or just reload 
+		location.reload();
+	}
 
-		//show table of specific breed details
-		function showBreedDetails(){
-			//show table of breed details
-			$('#breed_details').show();
-			//hide click to learn more button
-			$('#expand_details').hide();
-		}
+	//simulate upload through file input button by clicking default upload img
+	function simulateUpload() {
+		$('#upload_input').trigger('click');
+	}
 
-		//"loads" information, ajax call to fetch breed results
-		function loadAnimation() {
+	//show table of specific breed details
+	function showBreedDetails() {
+		//show table of breed details
+		$('#breed_details').show();
+		//hide click to learn more button
+		$('#expand_details').hide();
+	}
 
-			//hide buttons, show loading animation
-			$('#upload_buttons').hide();
-			$('#process_text').show();
+	//"loads" information, ajax call to fetch breed results
+	function loadAnimation() {
 
-			//set timeout temporarily so you can see the "loading" above
+		//hide buttons, show loading animation
+		$('#upload_buttons').hide();
+		$('#process_text').show();
+
+
+		//set timeout temporarily so you can see the "loading" above
+		setTimeout(() => {
+			//finished 'loading' to the users eye, displays breed results
+			$('#process_text').hide(); //loading text
+			$('#loaded_text').show();
+
+			$('#step3').show();	//displays hidden sections
+			// $('#breed_results').show();
+			// $('#expand_details').show();
+
 			setTimeout(() => {
-				//finished 'loading' to the users eye, displays breed results
-				$('#process_text').hide(); //loading text
-				$('#loaded_text').show();
+				$('html, body').animate({ //slow scrolls 
+					scrollTop: $('#step3').offset().top
+				}, 'slow');
+			}, 500);
 
-				$('#step3').show();	//displays hidden sections
-				// $('#breed_results').show();
-				// $('#expand_details').show();
+		}, 1000);
 
-				setTimeout( ()=>{
-					$('html, body').animate({ //slow scrolls 
-						scrollTop: $( '#step3' ).offset().top
-					}, 'slow');
-				},500);
+		//TODO: implement real backend
+		//store file on firebase, get url back
+		//get request to weanimal.herokuapp with url appended
+		//parse data we get back for breeds, then insert those breeds
+		//below into ajax call "fake breed" area
 
-			}, 1000);
 
-			//TODO: implement real backend
-			//store file on firebase, get url back
-			//get request to weanimal.herokuapp with url appended
-			//parse data we get back for breeds, then insert those breeds
-			//below into ajax call "fake breed" area
-
-			//things to execute during loading animation
-			const fakeBreed = 'Golden Retriever'
-	
-				//ajax call to fetch details from db
+		/*
+		//things to execute during loading animation
+		
+		const image64data = $('#upload_image').attr('src');
+		const storageRef = firebase.storage().ref().child('image');
+		const uploadTask = storageRef.putString(image64data, 'data_url').then((snapshot) => {
+			console.log(`Uploaded a data url string`);
+			snapshot.ref.getDownloadURL().then((downloadURL) => {
+				console.log(`File available at: ${downloadURL}`);
 				$.ajax({
-					url: '/fetch',
+					url: `weanimal.herokuapp.com/${downloadURL}`,
 					type: 'GET',
-					data: { species: currAnimal, breed: fakeBreed },
 					dataType: 'json',
 					success: function (data) {
-						//grabs response data as json  
-						// const breed_json = JSON.parse(data);
-						const info_json = data;
-						const info_keys = Object.keys(info_json);
-						
-						//appends breeds dynamically
-						info_keys.forEach(prop => {
-							if (prop != 'temperament') {
-								$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
-							} else {
-								let list = '';
-								info_json[prop].split(',').forEach(element => {
-									list += `<li>${element}</li>`;
-								});
-								$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
-							}
-						});
+						console.log(data);
+					}					
+				});
+			});
+		}); */
 
-					},
-					error: function (request, error) {
-						console.log("AJAX Request Error: " + JSON.stringify(request));
+
+		const imageUrl = $('#upload_input').attr('value');
+		//ajax call to fetch details from db
+		$.ajax({
+			url: '/mlapi',
+			type: 'GET',
+			data: { imageUrl: imageUrl },
+			dataType: 'json',
+			success: function (data) {
+				// Parse result of ML for chart visualization
+				console.log(data);
+				let breedPercents = [];
+				data.forEach(breedStat => {
+					let info = breedStat.split('%\t');
+					let percent = parseFloat(info[0]);
+
+					// Capitalize first letter of each word
+					let breed = info[1].split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+					breedPercents.push([breed, percent]);
+				});
+				console.log(breedPercents);
+				//chart to visualize breeds
+				c3.generate({
+					bindto: '#breed_chart',
+					data: {
+						// iris data from R
+						columns: breedPercents,
+						type: 'pie',
+						onclick: function (breed, percent) {
+							console.log(breed);
+							readBreedInfo(breed.name);
+						}
 					}
 				});
 
-
-		}
-
-
-
-		//chart to visualize breeds
-		c3.generate({
-			bindto: '#breed_chart',
-		    data: {
-		        // iris data from R
-		        columns: [
-		            ['Labrador Retriever', 10],
-		            ['Golden Retriever', 90],
-		        ],
-		        type : 'pie'
-		    }
+			},
+			error: function (request, error) {
+				console.log("AJAX Request Error: " + JSON.stringify(request));
+			}
 		});
 
-			
+	}
 
-	</script>
+	function readBreedInfo(breed) {
+		$.ajax({
+			url: '/fetch',
+			type: 'GET',
+			data: { breed: breed },
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				// Json object with facts on a dog breed
+				const info_json = data;
+				const info_keys = Object.keys(info_json);
+
+				// Add breed information to DOM
+				$('#breed_list').empty();
+				info_keys.forEach(prop => {
+					if (prop != 'temperament') {
+						$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
+					} else {
+						let list = '';
+						info_json[prop].split(',').forEach(element => {
+							list += `<li>${element}</li>`;
+						});
+						$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
+					}
+				});
+				$('#breed_details').show();
+
+			},
+			error: function (request, error) {
+				console.log("AJAX Request Error: " + JSON.stringify(request));
+			}
+		});
+	}
+
+
+</script>
 
 
 <% include ./includes/footer %>

@@ -35,6 +35,40 @@
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="/c3-0.7.0/c3.min.js"></script> 
 
+    <script>
+        UPLOADCARE_PUBLIC_KEY = 'b6067fa83523fd44a3fd';
+        UPLOADCARE_TABS = 'file url';
+        UPLOADCARE_EFFECTS = 'crop,rotate';
+        UPLOADCARE_IMAGE_SHRINK = '512x512 50%';
+        UPLOADCARE_IMAGES_ONLY = true;
+        UPLOADCARE_PREVIEW_STEP = true;
+    </script>
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+    <script src="https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.js"></script>
+    <script>
+        uploadcare.registerTab('preview', uploadcareTabEffects)
+    </script>
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-storage.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyAxlyzi5yw58eBFROgZd0fQJKMY19WDUO0",
+            authDomain: "editted-ucsd.firebaseapp.com",
+            databaseURL: "https://editted-ucsd.firebaseio.com",
+            projectId: "editted-ucsd",
+            storageBucket: "editted-ucsd.appspot.com",
+            messagingSenderId: "315506940109",
+            appId: "1:315506940109:web:70bb04e9f6024d7e"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
 
 </head>
 <body>

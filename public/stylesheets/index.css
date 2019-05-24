@@ -154,3 +154,17 @@ input#animal_input.form-control:focus {
 .load-text{
 	color:green;
 }
+
+.uploader-light-blue-button .uploadcare--widget__button_type_open {
+	background-color: #9BC4E2;
+	font: 400 24x Arial;
+	font-weight: bolder;
+    line-height: 1.5;
+    color: #212529;
+	text-align: left;
+	padding: 8px 16px;
+}
+
+.uploader-light-blue-button .uploadcare--widget__button_type_open:hover {
+	background-color: #9BC4E2;
+}
