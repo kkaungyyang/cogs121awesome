@@ -185,23 +185,6 @@
 		});
 
 		// when a new photo is uploaded, change preview
-		$('#upload_input').on('data-attribute-changed', function (e) {
-			debugger;
-			// if (this.files && this.files[0]) {
-			// 	var reader = new FileReader();
-
-			// 	reader.onload = function (e) {
-			// 		$('#upload_image').attr('src', e.target.result);
-			// 	}
-
-			// 	reader.readAsDataURL(this.files[0]);
-			// }
-
-			//show submit button now that there's file attached
-			$('#view_results').show();
-
-		});
-
 		const widget = uploadcare.Widget('[role=uploadcare-uploader]');
 		widget.onUploadComplete((info) => {
 			$('#upload_image').attr('src', info.cdnUrl);
@@ -257,34 +240,6 @@
 
 		}, 1000);
 
-		//TODO: implement real backend
-		//store file on firebase, get url back
-		//get request to weanimal.herokuapp with url appended
-		//parse data we get back for breeds, then insert those breeds
-		//below into ajax call "fake breed" area
-
-
-		/*
-		//things to execute during loading animation
-		
-		const image64data = $('#upload_image').attr('src');
-		const storageRef = firebase.storage().ref().child('image');
-		const uploadTask = storageRef.putString(image64data, 'data_url').then((snapshot) => {
-			console.log(`Uploaded a data url string`);
-			snapshot.ref.getDownloadURL().then((downloadURL) => {
-				console.log(`File available at: ${downloadURL}`);
-				$.ajax({
-					url: `weanimal.herokuapp.com/${downloadURL}`,
-					type: 'GET',
-					dataType: 'json',
-					success: function (data) {
-						console.log(data);
-					}					
-				});
-			});
-		}); */
-
-
 		const imageUrl = $('#upload_input').attr('value');
 		//ajax call to fetch details from db
 		$.ajax({
@@ -294,7 +249,6 @@
 			dataType: 'json',
 			success: function (data) {
 				// Parse result of ML for chart visualization
-				console.log(data);
 				let breedPercents = [];
 				data.forEach(breedStat => {
 					let info = breedStat.split('%\t');
@@ -304,7 +258,7 @@
 					let breed = info[1].split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
 					breedPercents.push([breed, percent]);
 				});
-				console.log(breedPercents);
+
 				//chart to visualize breeds
 				c3.generate({
 					bindto: '#breed_chart',
@@ -334,13 +288,17 @@
 			data: { breed: breed },
 			dataType: 'json',
 			success: function (data) {
-				console.log(data);
+				$('#breed_list').empty();
+				// No information in DB on the given dog breed
+				if (!data) {
+					$('#breed_list').append('<p>No information available on this breed</p>');
+					return;
+				}
 				// Json object with facts on a dog breed
 				const info_json = data;
 				const info_keys = Object.keys(info_json);
 
 				// Add breed information to DOM
-				$('#breed_list').empty();
 				info_keys.forEach(prop => {
 					if (prop != 'temperament') {
 						$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');

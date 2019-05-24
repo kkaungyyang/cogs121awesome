@@ -1,10 +1,8 @@
 const express = require('express'); 
 const bodyParser = require('body-parser'); 
 const path = require('path');
-// const firebase = require("firebase"); REMOVE
 const firebase = require('firebase-admin');
 const serviceAccount = require('./editted-ucsd-firebase-adminsdk.json');
-// const firebaseConfig = require('./firebase-credentials.json') REMOVE
 const https = require('https');
 const app = express(); 
 
@@ -143,8 +141,8 @@ app.get('/breed', function(req,res){
 
 // ui version 1: all collapsible 
 app.get('/breed/:animal', function(req,res){
-  //currently only dog api
-  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
+  // currently only dog api
+  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { 
     res.render('breed_list',{
       currentAnimal: req.params.animal,
       breeds: Object.keys(snapshot.val()),
@@ -157,9 +155,9 @@ app.get('/breed/:animal', function(req,res){
 });
 
 
-//ui version 2: 1 info table displayed at top at time
+// ui version 2: 1 info table displayed at top at time
 app.get('/breed2/:animal', function(req,res){
-  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
+  firebaseDB.ref('breedInfo/').once('value').then( snapshot => {
     res.render('breed_list2',{
       currentAnimal: req.params.animal,
       breeds: Object.keys(snapshot.val()),
@@ -171,10 +169,10 @@ app.get('/breed2/:animal', function(req,res){
 });
 
 
-//temp for testing
+// temp for testing
 app.get('/dogapi', function(req,res){
 
-  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { // TODO: Consider mix of breeds
+  firebaseDB.ref('breedInfo/').once('value').then( snapshot => { 
     res.send(snapshot.val());
    }).catch( err => {
     console.log('Error getting info on breeds', err)
@@ -197,14 +195,12 @@ app.get('/contact', function(req,res){
 
 app.get('/mlapi', function(req,res) {
   const imageUrl = req.query.imageUrl;
-  console.log(`image url is ${imageUrl}`);
   https.get(`https://wedog.herokuapp.com/${imageUrl}`,(resp) => { 
     console.log(`Successful request to ML API`);
     resp.setEncoding('utf8');
     let rawData;
     resp.on('data', (chunk) => { rawData = chunk; });
     resp.on('end', () => {
-      console.log(rawData);
       res.send(rawData);
     });
   }); 
@@ -213,13 +209,7 @@ app.get('/mlapi', function(req,res) {
 //temp hardcode ajax fetch for breed match
 app.get('/fetch', function(req,res) {
   const breed = req.query.breed; // TODO: Add breed as data in ajax call
-  firebaseDB.ref('breedInfo/' + breed).once('value').then( snapshot => { // TODO: Consider mix of breeds
-    // console.log(`Breed is ${breed}`);
-    // console.log(snapshot.val());
-    // const data = snapshot.val();
-    // Object.keys(data).forEach( info => {
-    //   console.log(`${info} => ${data[info]}`);
-    // })
+  firebaseDB.ref('breedInfo/' + breed).once('value').then( snapshot => { 
     res.send(snapshot.val())
   }).catch( err => {
     console.log('Error getting info on breed', err)
