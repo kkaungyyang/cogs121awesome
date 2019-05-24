@@ -1,16 +1,27 @@
 const express = require('express'); 
 const bodyParser = require('body-parser'); 
 const path = require('path');
-const firebase = require("firebase");
-const admin = require('firebase-admin');
-const firebaseConfig = require('./firebase-credentials.json')
+// const firebase = require("firebase"); REMOVE
+const firebase = require('firebase-admin');
+const serviceAccount = require('./editted-ucsd-firebase-adminsdk.json');
+// const firebaseConfig = require('./firebase-credentials.json') REMOVE
 const https = require('https');
 const app = express(); 
 
+// ---------------------
+// var multer  = require('multer') REMOVE
+// var upload = multer({ dest: 'uploads/' })
+
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: "https://editted-ucsd.firebaseio.com"
+});
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
+const firebaseStorage = firebase.storage();
 
 // Set bool to true to upload data from dog breeds API
 const seedDB =  false;
@@ -189,6 +200,35 @@ app.get('/contact', function(req,res){
 
 //temp hardcode ajax fetch for breed match
 app.get('/fetch', function(req,res) {
+  // File or Blob of image
+  var b64 = req.query.image;
+  console.log('Image sent as \n' + b64);
+  // Create the file metadata
+  var metadata = {
+    contentType: 'image/jpeg'
+  };
+/*
+  // Upload file and metadata to the object 'images/mountains.jpg'
+  var uploadTask = firebaseStorage.ref().child('images/' + file.name).put(file, metadata);
+  uploadTask.snapshot.ref.getDownloadURL().then( (downloadURL) => {
+    const imageUrl = downloadURL;
+  })
+  // ------------------------
+  // const imageUrl = req.query.imageUrl;
+  const options = {
+    host: 'https://wedog.herokuapp.com',
+    path: `/${imageUrl}`
+  };
+  https.get(options,(res) => { 
+    console.log(`Successful request to ML API`);
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      
+    });
+*/
+  // --------------------------
   const breed = req.query.breed; // TODO: Add breed as data in ajax call
   firebaseDB.ref('breedInfo/' + breed).once('value').then( snapshot => { // TODO: Consider mix of breeds
     console.log(`Breed is ${breed}`);

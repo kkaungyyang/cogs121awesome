@@ -22,7 +22,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "firebase": "^6.0.2",
-    "firebase-admin": "^7.3.0",
+    "firebase-admin": "^7.4.0",
     "node": "^12.2.0",
     "path": "^0.12.7"
   }
