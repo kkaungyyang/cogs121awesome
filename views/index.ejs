@@ -48,7 +48,7 @@
 		<h3 class="animated pulse"> Upload a photo of your <b> <span class="currAnimal"></span></b>! </h3><br>
 
 		<!-- default photo is 'add photo' icon -->
-		<img id="upload_image" src="../images/add_icon.jpg" onclick="simulateUpload()"><br><br>
+		<img id="upload_image" src="../images/add_icon.jpg"><br><br>
 		
 		<!-- upload buttons -->
 		<div id="upload_buttons">
@@ -111,8 +111,7 @@
 		</div>
 
 
-		<button type="button" class="btn btn-lg" id="expand_details" style="display:inline"
-			onclick="showBreedDetails()">Click to learn more!</button>
+		<button type="button" class="btn btn-lg" id="expand_details" style="display:inline">Click to learn more!</button>
 
 		<br><br>
 
@@ -131,136 +130,122 @@
 
 	var currAnimal = "dog";
 
+	// Bind event listeners once DOM is loaded
 	$(document).ready(() => {
 
-		// auto selects animal_input on load
+		// Initially hides all sections besides step 1
+		$('.init-hide').hide();
+
+		/* STEP 1 ELEMENTS */
+
+		// Auto selects animal_input on load for immediate typing
 		$("#animal_input").select();
 
-		// animal button selectors under input box
+		// Binds onclick events for animal button selectors under input box
 		let animal_list = $("#animalSelector #myUL li");
 		animal_list.click(element => {
 			$("#step2").show();
 			let value = element.currentTarget.innerHTML.toLowerCase(); //species name clicked
-			// animal_list.attr('href', '#step2'); //click to slow scroll to step2
-			// animal_list.attr('class', 'scroll'); //for slow scroll
 			$(".currAnimal").html(value); //fill in all span elements for species
 			currAnimal = value; //set global var
 		});
 
-		//slow scroll step1 to step2
+		/* STEP 2 ELEMENTS */
+		
+		// Allow file selection through by clicking on the upload image preview/icon
+		$('#upload_image').click( ()=> {
+			$('button.uploadcare--widget__button.uploadcare--widget__button_type_open').trigger('click');
+		});
+		
+		// Does not change preview when you cancel out of choosing a photo
+		$('#upload_input').on('click touchstart', function () {
+			$(this).val('');
+		});
+
+		// When a new photo is uploaded, change preview
+		const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+		widget.onUploadComplete((info) => {
+			$('#upload_image').attr('src', info.cdnUrl);
+			$('#view_results').show();
+		})
+
+		/* STEP 3 ELEMENTS */
+
+		// When 'Click to learn more' button is clicked, show tables/cards of details by breed
+		$('#expand_details').click(()=>{
+			// Show all tables of breed details
+			$('#breed_tables').show();
+			// Hide the 'click to learn more' button
+			$('#expand_details').hide();
+		});
+	
+
+
+
+		/* SCROLLING */
+
+		// Slow scroll from step1 to step2
 		$('#step1 .scroll').click(() => {
 			$('html, body').animate({
 				scrollTop: $('#step2').offset().top
 			}, 'slow');
 		});
 
-		//slow scroll step 3 to top
+		// Slow scroll from step 3 to top
 		$('#step3 .scroll').click(() => {
 			setTimeout(() => {
-				clearAll();
+				// After slow scroll to top of page (after timeout), reload page to allow user to start again
+				location.reload();
 			}, 800);
 			$('html, body').animate({ scrollTop: 0 }, 'slow');
 		});
 
 
-	});
+	}); //end of dom ready
 
+
+
+	// Filter through animal button selectors from input
 	function findAnimal() {
 		var input, filter, ul, li, a, i, txtValue;
 		input = document.getElementById("animal_input");
 		filter = input.value.toUpperCase();
-		ul = document.getElementById("myUL");
-		li = ul.getElementsByTagName("li");
-		for (i = 0; i < li.length; i++) {
-			a = li[i].getElementsByTagName("a")[0];
+		lis = document.querySelectorAll("#myUL li");
+		for (i = 0; i < lis.length; i++) {
+			a = lis[i];
 			txtValue = a.textContent || a.innerText;
 			if (txtValue.toUpperCase().indexOf(filter) > -1) {
-				li[i].style.display = "";
+				lis[i].style.display = "";
 			} else {
-				li[i].style.display = "none";
+				lis[i].style.display = "none";
 			}
 		}
 	}
 
-</script>
-
-
-
-
-<script>
-
-	//bind event listeners on dom ready 
-	$(document).ready(function () {
-
-		$('.init-hide').hide();
-
-		// does not change preview when you cancel out of choosing a photo
-		$('#upload_input').on('click touchstart', function () {
-			$(this).val('');
-		});
-
-		// when a new photo is uploaded, change preview
-		const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-		widget.onUploadComplete((info) => {
-			$('#upload_image').attr('src', info.cdnUrl);
-			$('#view_results').show();
-		})
-	});
-
-	//restart upload process, clear all
-	function clearAll() {
-		//can either clear all inputs to reset to new 
-		$('.init-hide').hide();
-		// $('#upload_image').val("");
-		//or just reload 
-		location.reload();
-	}
-
-	//simulate upload through file input button by clicking default upload img
-	function simulateUpload() {
-		//TODO: find where this button is so i can click it
-		$('button.uploadcare--widget__button uploadcare--widget__button_type_open').trigger('click');
-	}
-
-	//show table of specific breed details
-	function showBreedDetails() {
-		//show table of breed details
-		$('#breed_details').show();
-		//hide click to learn more button
-		$('#expand_details').hide();
-	}
-
 	
-	//"loads" information, ajax call to fetch breed results
+	// "Submit photo and loads information" - Ajax call to fetch breed results, appends to DOM with data
 	function fetchResults() {
 
-		//hide buttons, show loading animation
+		// Hide submit buttons, show loading animation 
 		$('#upload_buttons').hide();
 		$('#process_text').show();
-
-
-		//TODO: store file on firebase, get url back
+	
 		
-		
-		//this is temp url from manual input
-		// const pic_url = $('#temp_url').val();
-		// const pic_url = 'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg';
-		// {key: breed, val: %}
-		// const breed_breakdown = {};
-		// [['breed','#'],...] format for pie chart
-		// const chart_val = [];
-
-
+		// Get URL from uploadcare
 		const imageUrl = $('#upload_input').attr('value');
 
+		// Holds values for breed results
+		const breedBreakdown = {};   // {key: breed, val: %}
+		let breedPercents = []; 	 // [['breedName','percent'],...] 
 
-		//ajax call, send dog photo URL through GET request to get breakdown of breed-percentages
-		$.get( '/mlapi', {imageUrl: imageUrl} )
+
+		// Ajax call, send dog photo URL through GET request to get breakdown of breed-percentages
+		$.get( '/mlapi', {imageUrl: imageUrl}, 'json')
 		.always( ()=>{
 			console.log("Done sending URL and requesting ML results.");
 		})
 		.fail(function(xhr, status, error){
-			//reset buttons
+			// If failed, reset loading animation to upload buttons so user can re-submit
 			$('#upload_buttons').show();
 			$('#process_text').hide();
 			alert("Error uploading photo to server, please try again.");
@@ -268,27 +253,24 @@
 		})
 		.done(function(data) {
 			// Parse result of ML for chart visualization
-			let breedPercents = [];
-				data.forEach(breedStat => {
-					let info = breedStat.split('%\t');
-					let percent = parseFloat(info[0]);
+			JSON.parse(data).forEach(breedStat => {
+				let info = breedStat.split('%\t');
+				let percent = parseFloat(info[0]);
 
-					// Capitalize first letter of each word
-					let breedName = info[1].toLowerCase().replace(/ /g,"").replace(/_/g," ").replace("bullterrier", "bull terrier");
-					breedName = breed_name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-					// let breed = info[1].split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-					breedPercents.push([breedName, percent]);
-				});
+				// Align names with format of dog breed api
+				let breedName = info[1].toLowerCase().replace(/ /g,"").replace(/_/g," ");
+				breedName = breedName.replace("bullterrier", "bull terrier");
+				// TODO: manually look through breeds and reformat some of the breed names
+				// Capitalize first letter of each word
+				breedName = breedName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+				// let breed = info[1].split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+				breedPercents.push([breedName, percent]);
+				breedBreakdown[ breedName ] = percent;
+			});
 			console.log("Done 1: ML results parsed");
 		})
-		// .done(function(data) {
-		// 	console.log("Check results: ");
-		// 	Object.keys(breed_breakdown).forEach(elem=>{
-		// 		console.log(elem, breed_breakdown[elem]);
-		// 	});
-		// })
 		.done(function(data) {
-			//generate chart to visualize breeds
+			// Generate chart to visualize breeds
 			c3.generate({
 				bindto: '#breed_chart',
 				data: {
@@ -304,21 +286,20 @@
 			console.log("Done 2: Chart generated");
 		})
 		.done(function(data) {
-			//for each identified breed, fetch breed details from db
-			console.log( "success 2" );
-			Object.keys(breed_breakdown).forEach( (b)=>{ 
-				//dynamically adds tables, helper function below
+			// For each identified breed, fetch breed details from db
+			Object.keys(breedBreakdown).forEach( (b)=>{ 
+				// Dynamically add tables to html with helper function 
 				fetchBreedDetails(b); 
 			});
 			console.log("Done 3: Tables created");
 		})
 		.done( ()=>{
-			//finished data fetching; change loading animation and display results
+			// Finished data fetching; change loading animation and display results
 			$('#process_text').hide(); //loading text
 			$('#loaded_text').show();
-			$('#step3').show();	//displays step3 hidden section
+			$('#step3').show();
 			
-			//slow scroll from step2 to step3 after data fetch is complete
+			// Slow scroll from step2 to step3 after data fetch is complete
 			setTimeout( ()=>{
 				$('html, body').animate({
 					scrollTop: $( '#step3' ).offset().top
@@ -328,13 +309,9 @@
 			console.log("Done 4: Data loaded; show step 3");
 		});
 		
-
-		//TODO: deal with error when breed is not in database
-
-		//helper function to fetch details from db per breed
+		// Helper function to fetch details from db per breed name
+		// Each breed has its own table with details, which is appended to #breed_tables only once-through.
 		function fetchBreedDetails(breedName){
-
-			//ajax call to fetch details from db
 			$.ajax({
 				url: '/fetch',
 				type: 'GET',
@@ -346,14 +323,14 @@
 				success: function (data) {
 					console.log(breedName, " exists in DogAPI db");
 					
-					//grabs response data as json
+					// Grabs response data as json
 					const info_json = data;
 					const info_keys = Object.keys(info_json);
 
-					//add new table for current breed
+					// Add new table for current breed
 					$('#breed_tables').append( $('#table_tmpl').html() );
 
-					//appends details dynamically
+					// Appends details dynamically
 					info_keys.forEach(prop => {
 						if (prop != 'temperament') {
 							$('.table_append:last').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
@@ -369,57 +346,54 @@
 					//TODO: move table_tmpl down and append to nth last child(2)
 				},
 				error: function (request, error) {
-					console.log("AJAX Request Error: " + JSON.stringify(request));
+					// console.log("AJAX Request Error: " + JSON.stringify(request));
+					// No information in DB on the given dog breed
+					console.log(breedName, " does not exist in DogAPI db");
 				}
 			});
 
 		}//end of fetchBreedDetails helper function
 
 
-	function readBreedInfo(breed) {
-		$.ajax({
-			url: '/fetch',
-			type: 'GET',
-			data: { breed: breed },
-			dataType: 'json',
-			success: function (data) {
-				$('#breed_list').empty();
-				// No information in DB on the given dog breed
-				if (!data) {
+		// Helper function to fetch details from db per breed
+		// Called every time pie chart slice is clicked, clears and edits table shown in #breed_details
+		function readBreedInfo(breed) {
+			$.ajax({
+				url: '/fetch',
+				type: 'GET',
+				data: { breed: breed },
+				dataType: 'json',
+				success: function (data) {
+					$('#breed_list').empty();
+					
+					// Json object with facts on a dog breed
+					const info_json = data;
+					const info_keys = Object.keys(info_json);
+
+					// Add breed information to DOM
+					info_keys.forEach(prop => {
+						if (prop != 'temperament') {
+							$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
+						} else {
+							let list = '';
+							info_json[prop].split(',').forEach(element => {
+								list += `<li>${element}</li>`;
+							});
+							$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
+						}
+					});
+					$('#breed_details').show();
+
+				},
+				error: function (request, error) {
+					// console.log("AJAX Request Error: " + JSON.stringify(request));
+					$('#breed_list').empty();
+					// No information in DB on the given dog breed
 					$('#breed_list').append('<p>No information available on this breed</p>');
-					$('#breed_results').show();
-					return;
+					$('#breed_details').show();
 				}
-				
-				// Json object with facts on a dog breed
-				const info_json = data;
-				const info_keys = Object.keys(info_json);
-
-				// Add breed information to DOM
-				info_keys.forEach(prop => {
-					if (prop != 'temperament') {
-						$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
-					} else {
-						let list = '';
-						info_json[prop].split(',').forEach(element => {
-							list += `<li>${element}</li>`;
-						});
-						$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
-					}
-				});
-				$('#breed_results').show();
-
-			},
-			error: function (request, error) {
-				console.log("AJAX Request Error: " + JSON.stringify(request));
-			}
-		});
-	}
-
-
-
-
-
+			});
+		} //end of readBreedInfo helper function
 
 
 	} //end of fetchResults 
