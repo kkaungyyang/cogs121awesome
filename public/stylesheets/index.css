@@ -29,6 +29,10 @@ input:focus{
 	background-color: var(--muted-blue);
 	font-weight: bold;
 }
+.nav-link{
+	color: rgba(0,0,0, 0.8) !important; 
+
+}
 .nav-link:hover{
 	font-weight: bold;
 	color: purple;
@@ -178,6 +182,12 @@ input#animal_input.form-control:focus {
 
 .uploader-light-blue-button .uploadcare--widget__button_type_open:hover {
 	background-color: #9BC4E2;
+}
+
+#chooseAction span:hover{
+	cursor: pointer; 
+	background-color: var(--muted-blue);
+	color: white !important; 
 }
 .main-col {
 	background-color: white;

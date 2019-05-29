@@ -6,11 +6,33 @@
 
 
 	<!-- Scroll Section #1 -- CHOOSE ANIMAL TO IDENTIFY -->
-	<div id="step1">
+	<div id="step0" class="mb-5">
+	
+		<!-- section title -->
+		<h1 class="text-left">Step 0<span> &#128062</span></h1><br>
+		<h3> Choose what you want to do ...</h3>
+	
+		<div id="chooseAction" class='row'>
+			<div class="col-6">
+				<span id="identifyAnimal"
+					class="border border-info rounded text-center d-block p-5 h2 text-info font-weight-bold">Identify Animals <i
+						class="fas fa-microscope text-dark ml-2"></i></span>
+			</div>
+			<div class="col-6">
+				<span id="lookUpInfo" class="border border-info rounded text-center d-block p-5 h2 text-info font-weight-bold">Look up info on breeds<i class="text-dark ml-2 fas fa-search"></i></span>
+			</div>
+			
+		</div>
+	
+	</div>
+
+
+	<!-- Scroll Section #1 -- CHOOSE ANIMAL TO IDENTIFY -->
+	<div id="step1" class="init-hide">
 
 		<!-- section title -->
 		<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
-		<h3 class="float-left animated pulse"> What animal are you trying to identify? </h3><br>
+		<h3 class="float-left"> What animal are you trying to <span class="underlined d-inline-block text-info infinite animated pulse">identify</span>? </h3><br>
 
 		<!-- input field, prefilled with database animals -->
 		<div class="input-group mb-3">
@@ -24,7 +46,7 @@
 				aria-describedby="basic-addon1"> -->
 			<input type="text" list="animalList" value="" id="animal_input"
 				class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1"
-				placeholder="search an animal ... " onkeyup="findAnimal()">
+				placeholder="search an animal to identify... " onkeyup="findAnimal()">
 		</div>
 
 		<!-- autofill animal species selector buttons -->
@@ -141,14 +163,19 @@
 		// Auto selects animal_input on load for immediate typing
 		$("#animal_input").select();
 
+		
+
 		// Binds onclick events for animal button selectors under input box
 		let animal_list = $("#animalSelector #myUL li");
+		
+	
 		animal_list.click(element => {
 			$("#step2").show();
 			let value = element.currentTarget.innerHTML.toLowerCase(); //species name clicked
 			$(".currAnimal").html(value); //fill in all span elements for species
 			currAnimal = value; //set global var
 		});
+
 
 		/* STEP 2 ELEMENTS */
 		
@@ -180,10 +207,27 @@
 		});
 	
 
+		// look up info  chosen
+		$('#step0 span#lookUpInfo').click(() => {
+			window.location.href= "/breed"
+		});
+
+
+		// identify animal chosen
+		$('#step0 span#identifyAnimal').click(() => {
+			$("#step1").fadeIn("slow", () => {});
+			
+			$('html, body').animate({
+				scrollTop: $('#step1').offset().top
+			}, 'slow');
+
+			$("div#step0 div#chooseAction div.col-6 span#lookUpInfo").parent().fadeOut("slow", () => {}); 
+		});
+
+
 
 
 		/* SCROLLING */
-
 		// Slow scroll from step1 to step2
 		$('#step1 .scroll').click(() => {
 			$('html, body').animate({
@@ -200,6 +244,9 @@
 			$('html, body').animate({ scrollTop: 0 }, 'slow');
 		});
 
+
+		
+		
 
 	}); //end of dom ready
 
@@ -400,8 +447,6 @@
 
 
 	} //end of fetchResults 
-
-
 
 
 
