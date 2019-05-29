@@ -369,7 +369,6 @@
 				},
 				success: function (data) {
 					console.log(breedName, " exists in DogAPI db");
-					$('#breed_tables').empty();
 					
 					// Grabs response data as json
 					const info_json = data;
@@ -413,7 +412,7 @@
 				data: { breed: breed },
 				dataType: 'json',
 				success: function (data) {
-					$('#breed_details').empty();
+					$('#breed_list').empty();
 					
 					// Json object with facts on a dog breed
 					const info_json = data;
