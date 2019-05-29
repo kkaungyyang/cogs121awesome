@@ -1,10 +1,20 @@
 :root { --muted-blue: #9BC4E2; }
 
 .fas{ color: white; }
-body { padding-top: 150px; }
+body { 
+	padding-top: 150px; 
+	background-color: #efeef1;
+}
 .navbar, .navbar-brand{
 	background-color: var(--muted-blue);
 	color: white;
+}
+#navbarNav {
+	font-weight: bold;
+	margin-left: 50px;
+}
+.nav-link {
+	padding-right: 10px;
 }
 .center { text-align:center; }
 input{
@@ -24,11 +34,8 @@ input:focus{
 
 }
 .nav-link:hover{
-	background-color: #f1f1f1; 
-}
-
-.nav-link:hover i.fas{
-	color: rgba(0,0,0, 0.8) !important; 
+	font-weight: bold;
+	color: purple;
 }
 
 .btn-file {
@@ -181,4 +188,24 @@ input#animal_input.form-control:focus {
 	cursor: pointer; 
 	background-color: var(--muted-blue);
 	color: white !important; 
+}
+.main-col {
+	background-color: white;
+	border-radius: 25px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+#breed_container {
+	flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+
+}
+
+#breed_container .dog_card {
+	flex: 1 0 25%;
+	padding: 10px; 
+	margin-right: 50px;	
+	width: 400px;
 }

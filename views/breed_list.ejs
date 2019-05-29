@@ -1,23 +1,43 @@
 <% include ./includes/header %>
 
-	<!-- rest of page -->
-	<div class="container" style="padding-bottom: 100px">
+<!-- rest of page -->
+<div class="container" style="padding-bottom: 100px">
 
-		<!-- header question -->
-		<h5 class="animated infinite pulse"> Select a breed to learn more!<span>&#128062</span>
-			<button><a href="../breed2/<%= currentAnimal %>">alternate view</a></button>
-		</h5>
-		<br>
+	<!-- input field, prefilled with database animals -->
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text border border-right-0">
+				<!-- search icon -->
+				<i class="text-primary fas fa-search"></i>
+			</span>
+		</div>
+		<!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+				aria-describedby="basic-addon1"> -->
+		<input type="text" list="animalList" value="" id="breed_input"
+			class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1"
+			placeholder="filter by breed name ... " onkeyup="filterBreeds()">
+	</div>
 
+	<!-- header question -->
+	<h5 class="animated infinite pulse"> Select a breed to learn more!<span>&#128062</span>
+		<button><a href="../breed2/<%= currentAnimal %>">alternate view</a></button>
+	</h5>
+	<br>
+
+	<div id="breed_container">
 		<!-- go through each breed and add a button + table info  -->
 		<% for(var i=0; i < breeds.length; i++) { %>
-			<!-- button with breed name toggles the collapsible table of breed info -->
-			<!-- data target of button connects to id of collapsible table, 
-				 regex to change spaces to underscores and to remove parenthesis for id naming conventions -->
-			<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#<%= breeds[i].replace(/ ()/g,'_').replace(/\(|\)/g,'')%>" style="margin-bottom:5px">
+		<!-- button with breed name toggles the collapsible table of breed info -->
+		<!-- data target of button connects to id of collapsible table, 
+				regex to change spaces to underscores and to remove parenthesis for id naming conventions -->
+		<div class="dog_card">
+			<!-- Note: Horrible to scale image like this for performance. Change in future to use <picture> -->
+			<img src="<%= data[breeds[i]].image %>" alt="No image of this dog breed available" width="100%">
+			<button type="button" class="btn btn-info" data-toggle="collapse"
+				data-target="#<%= breeds[i].replace(/ ()/g,'_').replace(/\(|\)/g,'')%>"
+				style="margin-bottom:5px; width: 100%">
 				<%= breeds[i]%>
 			</button>
-			<br>
 			<!-- collapsible table -->
 			<div id="<%= breeds[i].replace(/ /g,'_').replace(/\(|\)/g,'')%>" class="collapse">
 				<table class="table">
@@ -28,35 +48,56 @@
 						</tr>
 					</thead>
 					<tbody>
-					<% Object.keys(data[breeds[i]]).forEach(prop => {  %>
+						<% Object.keys(data[breeds[i]]).forEach(prop => {  %>
+						<% if (prop != 'image') { %>
 						<tr>
 							<td> <%= prop %> </td>
 							<td> <%= data[breeds[i]][prop] %> </td>
 						</tr>
-					<% }); %>
+						<% } %>
+						<% }); %>
 					</tbody>
 				</table>
 			</div>
+		</div>
 		<% } %>
-
-
-
 	</div>
+</div>
 
 
+<script>
 
+	//bind event listeners on dom ready 
+	$(document).ready(function () {
 
-	<script>
+	});
 
-		//bind event listeners on dom ready 
-		$(document).ready(function () {
+	function showDetails(breed) {
+		const value = breed;
+		console.log(value)
+	}
 
+	// Filter through animal button selectors from input
+	function filterBreeds() {
+		let input, filter, breeds, breedName;
+		input = document.getElementById("breed_input");
+		filter = input.value.toUpperCase();
+		breeds = document.querySelectorAll(".dog_card button");
+		infoCards = document.querySelectorAll(".dog_card");
+		breeds.forEach((element, index) => {
+			breedName = element.innerText;
+			if (breedName.toUpperCase().indexOf(filter) > -1) {
+				// infoCards[index].class = "d-none";
+				infoCards[index].style.display = "";
+			} else {
+				// infoCards[index].class = "d-none";
+				infoCards[index].style.display = "none";
+			}
 		});
+	}
 
 
-			
-
-	</script>
+</script>
 
 </body>
 
