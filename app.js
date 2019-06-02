@@ -149,9 +149,8 @@ app.get('/fetch', function (req, res) {
 });
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server started at process.env.PORT || 3000`);
 });
 
 module.exports = app;
