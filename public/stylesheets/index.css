@@ -224,3 +224,7 @@ input#animal_input.form-control:focus {
 	height: 300px;
 	object-fit: cover;
 }
+
+#breed_tables .col-4 {
+	padding-right: 0px;
+} 

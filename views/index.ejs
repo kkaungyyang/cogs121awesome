@@ -109,7 +109,7 @@
 			<div id="card_error" class="init-hide" style="color:gray">
 				We currently do not have breed information for the breed you selected.<br>
 			</div>
-			<div id="breed_tables" class="init-hide"></div>
+			<div id="breed_tables" class="init-hide row"></div>
 		</div>
 
 
@@ -358,7 +358,7 @@
 
 					// Add new card for current breed with it's breed name as id
 					const breed_id = breedName.toLowerCase().replace(/ /g,"_");	
-					$('#breed_tables').append($('<flip-card id="'+breed_id+'"></flip-card>'));
+					$('#breed_tables').append($('<flip-card id="'+breed_id+'" class="col-4"></flip-card>'));
 
 					const card = document.querySelector("flip-card:last-child").shadowRoot;
 
