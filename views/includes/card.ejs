@@ -1,0 +1,48 @@
+<template id="table_tmpl">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/card.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <div class="wrapper">
+        <div class="card">
+            <!-- button for flipping -->
+            <input type="checkbox" id="card1" class="more" aria-hidden="true"> 
+            <div class="content">
+                <div class="front" style="background-image: url('https://images.unsplash.com/photo-1529408686214-b48b8532f72c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=986e2dee5c1b488d877ad7ba1afaf2ec&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="inner">
+                        <h2 class="card_breed"></h2>
+                        <progress value="0" max="100"></progress>
+                        <label for="card1" class="button" aria-hidden="true">
+                            Details
+                        </label>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="inner">
+                        <div class="info">
+                            <span id="card_percent"></span>
+                            <div class="icon">
+                                <i class="fas fa-dna"></i>
+                                <span>match</span>
+                            </div>
+                        </div>
+                        <div class="description">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th><b>Category</b></th>
+                                    <th><b>Details</b></th>
+                                </tr>
+                                </thead>
+                                <tbody id="card_table">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card_breed location">Breed Name</div>
+                        <label for="card1" class="button return" aria-hidden="true">
+                            <i class="fas fa-arrow-left"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -63,7 +63,7 @@ ul {
 }
 
 /* upload photo - breed_details_table style */
-#breed_tables tr, #breed_details tr{
+/* #breed_tables tr, #breed_details tr{
 	align-items: flex-start;
 	text-align: left;
 	padding: 0 50px 125px;
@@ -72,9 +72,16 @@ ul {
 .table_append tr td:last-child {
 	font-weight: normal;
 	padding-left: 50px;
-}
-td li{
+} */
+table tr td li{
 	list-style: none;
+}
+
+/* table tr td:first-child {
+  padding-right: 30px;
+} */
+flip-card{
+	text-align: left;
 }
 
 
@@ -161,7 +168,7 @@ input#animal_input.form-control:focus {
 
 /* default upload icon */
 #upload_image{
-	width: 20%;
+	width: 50%;
 	border: black solid 1px;
 	cursor: grab;
 }
@@ -184,15 +191,16 @@ input#animal_input.form-control:focus {
 	background-color: #9BC4E2;
 }
 
-#chooseAction span:hover{
+
+#card_error {
+	display: block;
+	padding: 100px 0px;
+}
+
+#chooseAction span:hover {
 	cursor: pointer; 
 	background-color: var(--muted-blue);
 	color: white !important; 
-}
-.main-col {
-	background-color: white;
-	border-radius: 25px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
 #breed_container {

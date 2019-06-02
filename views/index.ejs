@@ -86,29 +86,16 @@
 
 		<!-- upload animation (currently text) -->
 		<h2 class="load-text init-hide" id="process_text">Scanning....<h2>
-		<h2 class="load-text init-hide" id="loaded_text">Loaded!<h2>
+		<h2 class="load-text init-hide" id="loaded_text">COMPLETE<h2>
 	</div>
 
 
 
 	<!-- templates -->
-	<div id="table_tmpl" class="init-hide">
-			<table class="table" style="display:inline">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Category</th>
-						<th scope="col">Details</th>
-					</tr>
-				</thead>
-				<tbody class="table_append">
-				</tbody>
-			</table>
-	</div>
+	<% include ./includes/card %>
 
 
 
-
-	
 	<!-- Scroll Section #3 -- EXPLORE RESULTS --> 
 	
 	<div class="center init-hide" id="step3">
@@ -119,16 +106,9 @@
 			<h2 style="color:black">Your <span class="currAnimal"></span> is the following breed(s):</h2>
 			<div id="breed_chart"></div>
 			<hr>
-			<table class="table init-hide" id="breed_details" style="display:inline">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">Category</th>
-							<th scope="col">Details</th>
-						</tr>
-					</thead>
-					<tbody id="breed_list">
-					</tbody>
-			</table>
+			<div id="card_error" class="init-hide" style="color:gray">
+				We currently do not have breed information for the breed you selected.<br>
+			</div>
 			<div id="breed_tables" class="init-hide"></div>
 		</div>
 
@@ -141,6 +121,7 @@
 	</div>
 
 
+	
 
 
 </div>
@@ -325,8 +306,8 @@
 					columns: breedPercents,
 					type: 'pie',
 					onclick: function (breed, percent) {
-						console.log(breed);
-						readBreedInfo(breed.name);
+						// console.log(breed);
+						flipCard(breed.name);
 					}
 				}
 			});
@@ -357,7 +338,7 @@
 		});
 		
 		// Helper function to fetch details from db per breed name
-		// Each breed has its own table with details, which is appended to #breed_tables only once-through.
+		// Each breed has its own card with details, which is appended to #breed_tables only once-through.
 		function fetchBreedDetails(breedName){
 			$.ajax({
 				url: '/fetch',
@@ -375,23 +356,53 @@
 					delete info_json.image;
 					const info_keys = Object.keys(info_json);
 
-					// Add new table for current breed
-					$('#breed_tables').append( $('#table_tmpl').html() );
+					// Add new card for current breed with it's breed name as id
+					const breed_id = breedName.toLowerCase().replace(/ /g,"_");	
+					$('#breed_tables').append($('<flip-card id="'+breed_id+'"></flip-card>'));
 
-					// Appends details dynamically
+					const card = document.querySelector("flip-card:last-child").shadowRoot;
+
+					// Fill in dynamic fields like breed name, percentage, percentage
+					card.querySelectorAll(".card_breed").forEach( (elem)=> {
+						elem.innerHTML = breedName;
+					});
+					card.querySelector("#card_percent").innerHTML = breedBreakdown[breedName]+"%";
+					card.querySelector("progress").value=breedBreakdown[breedName];
+
+					// Create document fragment to append details to for better performance
+					const fragment = document.createDocumentFragment();
+							
+					// Appends details dynamically (breed details in table format)
 					info_keys.forEach(prop => {
-						if (prop != 'temperament') {
-							$('.table_append:last').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
-						} else {
-							let list = '';
-							info_json[prop].split(',').forEach(element => {
-								list += `<li>${element}</li>`;
-							});
-							$('.table_append:last').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
+						const tr = document.createElement('tr');
+						const td1 = document.createElement('td');
+						td1.appendChild( document.createTextNode( prop.replace("_", " ") ) );
+						const td2 = document.createElement('td');
+
+						if (prop == 'image'){ // Change background to dog image
+							card.querySelector(".front").style.backgroundImage = "url('" + info_json[prop] +"')";
+						}
+						else { // Otherwise append info
+							td2.appendChild( document.createTextNode(info_json[prop]) );
+						} 
+						tr.appendChild(td1);
+						tr.appendChild(td2);
+						fragment.appendChild(tr);
+					});
+					card.querySelector("#card_table").appendChild(fragment);
+					
+					// Add attribute to see whether card is front or back facing
+					card.querySelector("input[type='checkbox'].more").setAttribute('data-dir', 'front');
+
+					// Attach event listener to button on card (which flips the card)
+					card.querySelector("input[type='checkbox'].more").addEventListener( 'click', (e)=>{
+						const target = e.currentTarget;
+						if (target.getAttribute('data-dir') == 'front'){
+							target.setAttribute('data-dir', 'back');
+						}else{
+							target.setAttribute('data-dir', 'front');
 						}
 					});
-					
-					//TODO: move table_tmpl down and append to nth last child(2)
 				},
 				error: function (request, error) {
 					// console.log("AJAX Request Error: " + JSON.stringify(request));
@@ -403,51 +414,64 @@
 		}//end of fetchBreedDetails helper function
 
 
-		// Helper function to fetch details from db per breed
-		// Called every time pie chart slice is clicked, clears and edits table shown in #breed_details
-		function readBreedInfo(breed) {
-			$.ajax({
-				url: '/fetch',
-				type: 'GET',
-				data: { breed: breed },
-				dataType: 'json',
-				success: function (data) {
-					$('#breed_list').empty();
-					
-					// Json object with facts on a dog breed
-					const info_json = data;
-					delete info_json.image;
-					const info_keys = Object.keys(info_json);
 
-					// Add breed information to DOM
-					info_keys.forEach(prop => {
-						if (prop != 'temperament') {
-							$('#breed_list').append('<tr><td>' + prop + "</td><td>" + info_json[prop] + '</td></tr>');
-						} else {
-							let list = '';
-							info_json[prop].split(',').forEach(element => {
-								list += `<li>${element}</li>`;
-							});
-							$('#breed_list').append(`<tr><td>${prop}</td><td>${list}</td></tr>`);
-						}
-					});
-					$('#breed_details').show();
+		// Helper function called every time pie chart slice is clicked, flips the chosen card
+		function flipCard(breed) {
 
-				},
-				error: function (request, error) {
-					// console.log("AJAX Request Error: " + JSON.stringify(request));
-					$('#breed_list').empty();
-					// No information in DB on the given dog breed
-					$('#breed_list').append('<p>No information available on this breed</p>');
-					$('#breed_details').show();
-				}
-			});
-		} //end of readBreedInfo helper function
 
+			// Hides error information incase it was displayed
+			$("#card_error").hide();
+			// Shows cards if not yet displayed
+			$("#expand_details" ).trigger( "click" );
+
+			// Grabs breed id in format: #breed_name
+			const breed_id = "#"+breed.toLowerCase().replace(/ /g,"_");
+
+			// If breed exists in db, flip that card, otherwise show error message
+			if ($(breed_id).length > 0) { // EXISTS
+		
+				// Front face all other cards first
+				document.querySelectorAll("flip-card").forEach( (e)=>{
+					const btn = e.shadowRoot.querySelector("input[type='checkbox'].more");
+					if (btn.getAttribute('data-dir') == 'back'){
+						btn.click();
+					}
+				});
+
+				// Send view to that breed's card
+				$('html, body').animate({
+					scrollTop: $(breed_id).offset().top -100
+				}, 'slow');
+
+				// Flip the card
+				const btn = document.querySelector("flip-card"+breed_id).shadowRoot.querySelector("input[type='checkbox'].more");
+				btn.click();
+
+			} else { // DOESN'T EXIST
+			
+				// Show and scroll to the error message
+				$("#card_error").show();
+				$('html, body').animate({
+					scrollTop: $("#card_error").offset().top -100
+				}, 'slow');
+				
+			}
+
+		}
 
 	} //end of fetchResults 
 
 
+	
+	customElements.define('flip-card', class extends HTMLElement {
+		constructor() {
+			super(); // always call super() first in the constructor.
+
+			// Attach a shadow root to the element.
+			let shadowRoot = this.attachShadow({mode: 'open'});
+			shadowRoot.appendChild(document.getElementById("table_tmpl").content.cloneNode(true));
+		}
+	});
 
 </script>
 
