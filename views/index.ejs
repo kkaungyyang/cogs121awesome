@@ -15,7 +15,7 @@
 		<div id="chooseAction" class='row'>
 			<div class="col-6">
 				<span id="identifyAnimal"
-					class="border border-info rounded text-center d-block p-5 h2 text-info font-weight-bold">Identify Animals <i
+					class="border border-info rounded text-center d-block p-5 h2 text-info font-weight-bold">Identify Dog <i
 						class="fas fa-microscope text-dark ml-2"></i></span>
 			</div>
 			<div class="col-6">
@@ -26,48 +26,13 @@
 	
 	</div>
 
+	<!-- Scroll Section #1 -- UPLOAD PHOTO -->
 
-	<!-- Scroll Section #1 -- CHOOSE ANIMAL TO IDENTIFY -->
-	<div id="step1" class="init-hide">
+	<div class="center init-hide" id="step1">
 
 		<!-- section title -->
 		<h1 class="text-left">Step 1<span> &#128062</span></h1><br>
-		<h3 class="float-left"> What animal are you trying to <span class="underlined d-inline-block text-info infinite animated pulse">identify</span>? </h3><br>
-
-		<!-- input field, prefilled with database animals -->
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text border border-right-0">
-					<!-- search icon -->
-					<i class="text-primary fas fa-search"></i>
-				</span>
-			</div>
-			<!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-				aria-describedby="basic-addon1"> -->
-			<input type="text" list="animalList" value="" id="animal_input"
-				class="form-control text-left rounded-right pl-3 border-left-0" aria-describedby="basic-addon1"
-				placeholder="search an animal to identify... " onkeyup="findAnimal()">
-		</div>
-
-		<!-- autofill animal species selector buttons -->
-		<div id="animalSelector">
-			<ul id="myUL">
-				<% animals.forEach( type => { %>
-				<li class="scroll"><%=type%></li>
-				<% }); %>
-			</ul>
-		</div>
-
-	</div>
-
-
-	<!-- Scroll Section #2 -- UPLOAD PHOTO -->
-
-	<div class="center init-hide" id="step2">
-
-		<!-- section title -->
-		<h1 class="text-left">Step 2<span> &#128062</span></h1><br>
-		<h3 class="animated pulse"> Upload a photo of your <b> <span class="currAnimal"></span></b>! </h3><br>
+		<h3 class="animated pulse"> Upload a photo of your <b>dog</b>! </h3><br>
 
 		<!-- default photo is 'add photo' icon -->
 		<img id="upload_image" src="../images/add_icon.jpg"><br><br>
@@ -96,12 +61,12 @@
 
 
 
-	<!-- Scroll Section #3 -- EXPLORE RESULTS --> 
+	<!-- Scroll Section #2 -- EXPLORE RESULTS --> 
 	
-	<div class="center init-hide" id="step3">
+	<div class="center init-hide" id="step2">
 
 		<!-- section title -->
-		<h1 class="text-left">Step 3<span> &#128062</span></h1><br>
+		<h1 class="text-left">Step 2<span> &#128062</span></h1><br>
 		<div id="breed_results" style="display:contents">
 			<h2 style="color:black">Your <span class="currAnimal"></span> is the following breed(s):</h2>
 			<div id="breed_chart"></div>
@@ -135,26 +100,27 @@
 
 	// Bind event listeners once DOM is loaded
 	$(document).ready(() => {
-
+		
 		// Initially hides all sections besides step 1
 		$('.init-hide').hide();
-
-		/* STEP 1 ELEMENTS */
-
-		// Auto selects animal_input on load for immediate typing
-		$("#animal_input").select();
-
 		
-
-		// Binds onclick events for animal button selectors under input box
-		let animal_list = $("#animalSelector #myUL li");
+		/* STEP 0 ELEMENTS */
 		
+		// look up info  chosen
+		$('#step0 span#lookUpInfo').click(() => {
+			window.location.href= "/breed/dog";
+		});
 	
-		animal_list.click(element => {
-			$("#step2").show();
-			let value = element.currentTarget.innerHTML.toLowerCase(); //species name clicked
-			$(".currAnimal").html(value); //fill in all span elements for species
-			currAnimal = value; //set global var
+	
+		// identify animal chosen
+		$('#step0 span#identifyAnimal').click(() => {
+			$("#step1").fadeIn("slow", () => {});
+			
+			$('html, body').animate({
+				scrollTop: $('#step1').offset().top
+			}, 'slow');
+	
+			$("div#step0 div#chooseAction div.col-6 span#lookUpInfo").parent().fadeOut("slow", () => {}); 
 		});
 
 
@@ -163,19 +129,19 @@
 		// Allow file selection through by clicking on the upload image preview/icon
 		$('#upload_image').click( ()=> {
 			$('button.uploadcare--widget__button.uploadcare--widget__button_type_open').trigger('click');
-		});
+		});	
 		
 		// Does not change preview when you cancel out of choosing a photo
 		$('#upload_input').on('click touchstart', function () {
 			$(this).val('');
-		});
+		});	
 
 		// When a new photo is uploaded, change preview
 		const widget = uploadcare.Widget('[role=uploadcare-uploader]');
 		widget.onUploadComplete((info) => {
 			$('#upload_image').attr('src', info.cdnUrl);
 			$('#view_results').show();
-		})
+		})	
 
 		/* STEP 3 ELEMENTS */
 
@@ -185,39 +151,17 @@
 			$('#breed_tables').show();
 			// Hide the 'click to learn more' button
 			$('#expand_details').hide();
-		});
-	
-
-		// look up info  chosen
-		$('#step0 span#lookUpInfo').click(() => {
-			window.location.href= "/breed"
-		});
-
-
-		// identify animal chosen
-		$('#step0 span#identifyAnimal').click(() => {
-			$("#step1").fadeIn("slow", () => {});
-			
-			$('html, body').animate({
-				scrollTop: $('#step1').offset().top
-			}, 'slow');
-
-			$("div#step0 div#chooseAction div.col-6 span#lookUpInfo").parent().fadeOut("slow", () => {}); 
-		});
-
-
+		});	
 
 
 		/* SCROLLING */
-		// Slow scroll from step1 to step2
+		// Slow scroll from step1 to step1
 		$('#step1 .scroll').click(() => {
-			$('html, body').animate({
-				scrollTop: $('#step2').offset().top
-			}, 'slow');
+			$('html, body').animate({ scrollTop: $('#step2').offset().top}, 'slow');
 		});
 
 		// Slow scroll from step 3 to top
-		$('#step3 .scroll').click(() => {
+		$('#step2 .scroll').click(() => {
 			setTimeout(() => {
 				// After slow scroll to top of page (after timeout), reload page to allow user to start again
 				location.reload();
@@ -325,12 +269,12 @@
 			// Finished data fetching; change loading animation and display results
 			$('#process_text').hide(); //loading text
 			$('#loaded_text').show();
-			$('#step3').show();
+			$('#step2').show();
 			
-			// Slow scroll from step2 to step3 after data fetch is complete
+			// Slow scroll from step1 to step2 after data fetch is complete
 			setTimeout( ()=>{
 				$('html, body').animate({
-					scrollTop: $( '#step3' ).offset().top
+					scrollTop: $( '#step2' ).offset().top
 				}, 'slow');
 			},500);
 			
