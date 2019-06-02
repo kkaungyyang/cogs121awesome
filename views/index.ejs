@@ -106,7 +106,7 @@
 		
 		/* STEP 0 ELEMENTS */
 		
-		// look up info  chosen
+		// look up info chosen
 		$('#step0 span#lookUpInfo').click(() => {
 			window.location.href= "/breed/dog";
 		});
@@ -224,14 +224,23 @@
 			console.log("AJAX Request Error: " + JSON.stringify(xhr));
 		})
 		.done(function(data) {
+
+			// Add up total percentages returned
+			let total = 0;
+			JSON.parse(data).forEach(breedStat => {
+				total += parseFloat(breedStat.split('%\t')[0]);
+			});
+
 			// Parse result of ML for chart visualization
 			JSON.parse(data).forEach(breedStat => {
-				let info = breedStat.split('%\t');
-				let percent = parseFloat(info[0]);
+				const info = breedStat.split('%\t');
+				const percent = (parseFloat(info[0]) * 100 / total).toFixed(2); 
 
 				// Align names with format of dog breed api
 				let breedName = info[1].toLowerCase().replace(/ /g,"").replace(/_/g," ");
 				breedName = breedName.replace("bullterrier", "bull terrier");
+				breedName = breedName.replace("leonberg", "leonberger");
+
 				// TODO: manually look through breeds and reformat some of the breed names
 				// Capitalize first letter of each word
 				breedName = breedName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

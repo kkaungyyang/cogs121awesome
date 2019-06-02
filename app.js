@@ -46,17 +46,9 @@ app.use(bodyParser.json());
 
 // ---- ROUTES ----
 app.get('/', function (req, res) {
-  res.render('index', {
-    animals: Object.keys(fakeDatabase)
-  });
+  res.render('index');
 });
 
-
-// app.get('/upload/:animal', function (req, res) {
-//   res.render('upload', {
-//     currentAnimal: req.params.animal
-//   });
-// });
 
 app.get('/breed/:animal', function (req, res) {
   // currently only dog api
@@ -72,7 +64,7 @@ app.get('/breed/:animal', function (req, res) {
 
 });
 
-// temp for testing
+// temp -- displays breed db for testing
 app.get('/dogapi', function (req, res) {
 
   firebaseDB.ref('breedInfo/').once('value').then(snapshot => {
@@ -80,7 +72,6 @@ app.get('/dogapi', function (req, res) {
   }).catch(err => {
     console.log('Error getting info on breeds', err)
   });
-
 });
 
 app.get('/contact', function(req,res){
