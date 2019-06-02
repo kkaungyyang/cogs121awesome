@@ -1,3 +1,5 @@
 /node_modules
 .DS_Store
 editted-ucsd-firebase-adminsdk.json
+/prototype_images
+milestone*
