@@ -181,14 +181,6 @@ app.get('/dogapi', function(req,res){
 });
 
 
-// app.get('/breed/:animal/:breed', function(req,res){
-// 	res.send({
-//      currentAnimal: req.params.animal,
-//      currentBreed: req.params.breed
-// 	 });
-// });
-
-
 app.get('/contact', function(req,res){
   res.render('contact');
 });
