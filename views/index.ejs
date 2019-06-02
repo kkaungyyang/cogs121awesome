@@ -353,7 +353,6 @@
 					
 					// Grabs response data as json
 					const info_json = data;
-					delete info_json.image;
 					const info_keys = Object.keys(info_json);
 
 					// Add new card for current breed with it's breed name as id
@@ -384,10 +383,10 @@
 						}
 						else { // Otherwise append info
 							td2.appendChild( document.createTextNode(info_json[prop]) );
+							tr.appendChild(td1);
+							tr.appendChild(td2);
+							fragment.appendChild(tr);
 						} 
-						tr.appendChild(td1);
-						tr.appendChild(td2);
-						fragment.appendChild(tr);
 					});
 					card.querySelector("#card_table").appendChild(fragment);
 					
