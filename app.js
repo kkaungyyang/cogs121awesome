@@ -5,7 +5,7 @@ const firebase = require('firebase-admin');
 const serviceAccount = require('./editted-ucsd-firebase-adminsdk.json');
 const https = require('https');
 const app = express();
-const seedDB = require("./seedDB");
+const seedDB = require("./public/js/seedDB");
 
 // ----- FIREBASE ---------
 

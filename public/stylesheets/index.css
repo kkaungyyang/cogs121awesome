@@ -196,16 +196,23 @@ input#animal_input.form-control:focus {
 }
 
 #breed_container {
+	display: flex;
 	flex-wrap: wrap;
 	display: flex;
-	justify-content: center;
-	align-items: flex-end;
+	justify-content: space-evenly;
+	align-items: center;
 
 }
 
-#breed_container .dog_card {
-	flex: 1 0 25%;
-	padding: 10px; 
-	margin-right: 50px;	
+.dog_card {
+	flex: 1 0 auto;
+	padding: 10px 30px; 
 	width: 400px;
+	text-align: center;
+}
+
+.dog_card img {
+	width:  400px;
+	height: 300px;
+	object-fit: cover;
 }

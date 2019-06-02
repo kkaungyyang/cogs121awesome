@@ -18,12 +18,6 @@
 			placeholder="filter by breed name ... " onkeyup="filterBreeds()">
 	</div>
 
-	<!-- header question -->
-	<h5 class="animated infinite pulse"> Select a breed to learn more!<span>&#128062</span>
-		<button><a href="../breed2/<%= currentAnimal %>">alternate view</a></button>
-	</h5>
-	<br>
-
 	<div id="breed_container">
 		<!-- go through each breed and add a button + table info  -->
 		<% for(var i=0; i < breeds.length; i++) { %>
@@ -35,7 +29,7 @@
 			<img src="<%= data[breeds[i]].image %>" alt="No image of this dog breed available" width="100%">
 			<button type="button" class="btn btn-info" data-toggle="collapse"
 				data-target="#<%= breeds[i].replace(/ ()/g,'_').replace(/\(|\)/g,'')%>"
-				style="margin-bottom:5px; width: 100%">
+				style="margin-bottom:5px; width: 400px">
 				<%= breeds[i]%>
 			</button>
 			<!-- collapsible table -->

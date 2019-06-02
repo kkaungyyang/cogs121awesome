@@ -1,5 +1,5 @@
 const firebase = require('firebase-admin');
-const serviceAccount = require('./editted-ucsd-firebase-adminsdk.json');
+const serviceAccount = require('../../editted-ucsd-firebase-adminsdk.json');
 const https = require('https');
 
 // Initialize Firebase
@@ -9,9 +9,35 @@ firebase.initializeApp({
 });
 const firebaseDB = firebase.database(); // reference to Firestore Realtime DB
 
+// Image URLs of dogs lacking a proper photo in TheDogAPI
+const imageURLs = {
+    // Dogs without a photo
+    "Australian Cattle Dog" : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Australian_Cattle_Dog_Naava.jpg/1024px-Australian_Cattle_Dog_Naava.jpg",
+    "Bearded Collie" : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Bearded_Collie.jpg/640px-Bearded_Collie.jpg",
+    "Border Collie" : "https://cdn.pixabay.com/photo/2016/01/29/13/00/border-collie-1167898_960_720.jpg",
+    "Bull Terrier" : "https://cdn.pixabay.com/photo/2018/08/27/03/20/dog-3633958_960_720.jpg",
+    "Chesapeake Bay Retriever" : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Chesapeake_Bay_Retriever1.jpg/1004px-Chesapeake_Bay_Retriever1.jpg",
+    "Cocker Spaniel" : "https://upload.wikimedia.org/wikipedia/commons/7/70/EnglishCockerSpaniel_simon.jpg",
+    "Finnish Spitz" : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/FINNISH_SPITZ.jpg/858px-FINNISH_SPITZ.jpg",
+    "Kooikerhondje" : "https://upload.wikimedia.org/wikipedia/commons/f/f0/Kooiker03.jpg",
+    "Saint Bernard" : "https://upload.wikimedia.org/wikipedia/commons/4/44/Saint-bernard-standing.jpg",
+    "Saluki" : "https://cdn.pixabay.com/photo/2019/02/27/11/54/saluki-4023919_960_720.jpg",
+    "Shiba Inu" : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Taka_Shiba.jpg/640px-Taka_Shiba.jpg",
+    "Standard Schnauzer" : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Standard_Schnauzers.jpg/640px-Standard_Schnauzers.jpg",
+    "Thai Ridgeback" : "https://upload.wikimedia.org/wikipedia/commons/d/d6/Thai-Ridgeback.jpg",
+    "Tibetan Terrier" : "https://cdn.pixabay.com/photo/2019/02/23/17/50/tibetan-terrier-4016152_960_720.jpg",
 
-const dogIds = [];
+    // Dogs with a poor photo
+    "Appenzeller Sennenhund" : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Abora_z_Velk%C3%A9ho_%C3%9Ajezda5.jpg/880px-Abora_z_Velk%C3%A9ho_%C3%9Ajezda5.jpg",
+    "Bloodhound" : "https://upload.wikimedia.org/wikipedia/commons/5/52/Cachorro_Bloodhound.jpg",
+    "Catahoula Leopard Dog" : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Louisiana_Catahoula_Leopard_Dog_-_Red_Leopard.jpg",
+    "English Toy Spaniel" : "https://upload.wikimedia.org/wikipedia/commons/a/a7/English_Toy_Spaniel_Cropped.jpg",
+    "Great Dane" : "https://www.publicdomainpictures.net/pictures/40000/nahled/great-dane-dog-1365445651zZJ.jpg",
+};
+
+
 const seedDB = () => {
+    const dogIds = [];
     const options = {
         host: 'api.thedogapi.com',
         path: '/v1/breeds',
@@ -40,7 +66,9 @@ const seedDB = () => {
                         weight: `${breedInfo.weight.imperial} lb OR ${breedInfo.weight.metric} kg` || '',
                         height: `${breedInfo.height.imperial} in OR ${breedInfo.height.metric} cm` || ''
                     }
-                    dogIds.push(breedInfo.id)
+                    if (!(data.breed in imageURLs)) {
+                        dogIds.push(breedInfo.id)
+                    } 
                     firebaseDB.ref('breedInfo/' + data.breed).set(data);
                 }
                 seedImages(dogIds);
@@ -55,7 +83,6 @@ const seedDB = () => {
 }
 
 const seedImages = (dogIds) => {
-    console.log('---- Expect some errors below since not all dogs have images in TheDogAPI ----');
     dogIds.forEach(id => {
         let option = {
             host: 'api.thedogapi.com',
@@ -81,6 +108,11 @@ const seedImages = (dogIds) => {
         }).on('error', (err) => {
             console.error(`Error while requesting TheDogAPI api: ${err.message}`);
         });
+    });
+
+    // Manually add images of dogs lacking a proper photo in TheDogAPI
+    Object.keys(imageURLs).forEach( breed => {
+        firebaseDB.ref(`breedInfo/${breed}/image`).set(imageURLs[breed]);
     });
 };
 
