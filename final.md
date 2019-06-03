@@ -20,7 +20,7 @@ Hillary Thi | All front end work: most functionality of initial page layouts, lo
     
 ---
 ## Decription of Source Code Files
-*Final submission of code can be found in the __prod__ branch*
+*Final submission of main app code can be found in the __prod__ branch, Code for machine learning API is in the WeAnimal-DogClassifier folder on the __master__ branch*
 
 File Name | Description
 ------------ | -------------
@@ -34,6 +34,7 @@ footer.ejs | Closing HTML body and html tags
 header.ejs | HTML DOCTYPE and head tag that contains import of CDN urls that are used across all pages. Includes navigation bar
 breed_list.ejs | HTML code for displaying the dog breed information database
 index.ejs | Landing page that compiles all of our application into a single page
+WeAnimal-DogClassifier/ | Codes for the machine learning API, see the README in the folder for more information
 
 ---
 
