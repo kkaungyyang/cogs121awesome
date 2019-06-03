@@ -42,63 +42,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 
-const fakeDatabase = {
-  'Cat': {},
-  'Dog': {},
-  'Bird': {},
-  'Fish': {},
-  'Hamster': {},
-  'Horse': {},
-  'Monkey': {},
-  'Rabbit': {},
-  'Unicorn': {}
-};
-
-
 //  APP ROUTE 
 
 // ---- ROUTES ----
 app.get('/', function (req, res) {
-  res.render('index', {
-    animals: Object.keys(fakeDatabase)
-  });
-});
-
-
-app.get('/upload/:animal', function (req, res) {
-  res.render('upload', {
-    currentAnimal: req.params.animal
-  });
-});
-
-app.get('/breed', function (req, res) {
-  res.render('breed', {
-    animals: Object.keys(fakeDatabase)
-  });
-});
-
-
-// ui version 1: all collapsible 
-app.get('/breed/:animal', function (req, res) {
   // currently only dog api
   firebaseDB.ref('breedInfo/').once('value').then(snapshot => {
-    res.render('breed_list', {
-      currentAnimal: req.params.animal,
-      breeds: Object.keys(snapshot.val()),
-      data: snapshot.val()
-    });
-  }).catch(err => {
-    console.log('Error getting info on breeds', err)
-  });
-
-});
-
-
-// ui version 2: 1 info table displayed at top at time
-app.get('/breed2/:animal', function (req, res) {
-  firebaseDB.ref('breedInfo/').once('value').then(snapshot => {
-    res.render('breed_list2', {
-      currentAnimal: req.params.animal,
+    res.render('index', {
       breeds: Object.keys(snapshot.val()),
       data: snapshot.val()
     });
@@ -108,7 +58,7 @@ app.get('/breed2/:animal', function (req, res) {
 });
 
 
-// temp for testing
+// temp -- displays breed db for testing
 app.get('/dogapi', function (req, res) {
 
   firebaseDB.ref('breedInfo/').once('value').then(snapshot => {
@@ -116,10 +66,7 @@ app.get('/dogapi', function (req, res) {
   }).catch(err => {
     console.log('Error getting info on breeds', err)
   });
-
 });
-
-
 
 app.get('/contact', function(req,res){
   res.render('contact');

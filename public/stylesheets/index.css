@@ -63,23 +63,11 @@ ul {
 }
 
 /* upload photo - breed_details_table style */
-/* #breed_tables tr, #breed_details tr{
-	align-items: flex-start;
-	text-align: left;
-	padding: 0 50px 125px;
-	size: small;
-}
-.table_append tr td:last-child {
-	font-weight: normal;
-	padding-left: 50px;
-} */
 table tr td li{
 	list-style: none;
 }
 
-/* table tr td:first-child {
-  padding-right: 30px;
-} */
+
 flip-card{
 	text-align: left;
 }
@@ -159,8 +147,8 @@ input#animal_input.form-control:focus {
 
 
 
-#step2, #step3{
-	padding-top: 100px; 
+#step1, #step2{
+	/* padding-top: 100px;  */
 	padding-bottom: 100px;
 	margin-top: 10px;
 }
@@ -169,6 +157,7 @@ input#animal_input.form-control:focus {
 /* default upload icon */
 #upload_image{
 	width: 50%;
+	max-width: 325px;
 	border: black solid 1px;
 	cursor: grab;
 }
@@ -191,7 +180,6 @@ input#animal_input.form-control:focus {
 	background-color: #9BC4E2;
 }
 
-
 #card_error {
 	display: block;
 	padding: 100px 0px;
@@ -206,10 +194,8 @@ input#animal_input.form-control:focus {
 #breed_container {
 	display: flex;
 	flex-wrap: wrap;
-	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-
 }
 
 .dog_card {
