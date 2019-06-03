@@ -199,7 +199,6 @@ input#animal_input.form-control:focus {
 }
 
 .dog_card {
-	flex: 1 0 auto;
 	padding: 10px 30px; 
 	width: 400px;
 	text-align: center;

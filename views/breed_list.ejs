@@ -23,8 +23,8 @@
 				regex to change spaces to underscores and to remove parenthesis for id naming conventions -->
 		<div class="dog_card">
 			<!-- Note: Horrible to scale image like this for performance. Change in future to use <picture> -->
-			<img src="<%= data[breeds[i]].image %>" alt="No image of this dog breed available" width="100%">
-			<button type="button" class="btn btn-info" data-toggle="collapse"
+			<img src="<%= data[breeds[i]].image %>" alt="No image of this dog breed available" width="100%" class="img-fluid">
+			<button type="button" class="btn btn-info img-fluid" data-toggle="collapse"
 				data-target="#<%= breeds[i].replace(/ ()/g,'_').replace(/\(|\)/g,'')%>"
 				style="margin-bottom:5px; width: 400px">
 				<%= breeds[i]%>
