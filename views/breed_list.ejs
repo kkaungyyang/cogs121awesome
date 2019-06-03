@@ -1,7 +1,4 @@
-<% include ./includes/header %>
-
-<!-- rest of page -->
-<div class="container" style="padding-bottom: 100px">
+<div class="container init-hide" style="padding-bottom: 100px" id="lookup">
 
 	<!-- input field, prefilled with database animals -->
 	<div class="input-group mb-3">
@@ -61,38 +58,6 @@
 
 <script>
 
-	//bind event listeners on dom ready 
-	$(document).ready(function () {
-
-	});
-
-	function showDetails(breed) {
-		const value = breed;
-		console.log(value)
-	}
-
-	// Filter through animal button selectors from input
-	function filterBreeds() {
-		let input, filter, breeds, breedName;
-		input = document.getElementById("breed_input");
-		filter = input.value.toUpperCase();
-		breeds = document.querySelectorAll(".dog_card button");
-		infoCards = document.querySelectorAll(".dog_card");
-		breeds.forEach((element, index) => {
-			breedName = element.innerText;
-			if (breedName.toUpperCase().indexOf(filter) > -1) {
-				// infoCards[index].class = "d-none";
-				infoCards[index].style.display = "";
-			} else {
-				// infoCards[index].class = "d-none";
-				infoCards[index].style.display = "none";
-			}
-		});
-	}
 
 
 </script>
-
-</body>
-
-</html>

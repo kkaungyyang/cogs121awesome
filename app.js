@@ -46,23 +46,17 @@ app.use(bodyParser.json());
 
 // ---- ROUTES ----
 app.get('/', function (req, res) {
-  res.render('index');
-});
-
-
-app.get('/breed/:animal', function (req, res) {
   // currently only dog api
   firebaseDB.ref('breedInfo/').once('value').then(snapshot => {
-    res.render('breed_list', {
-      currentAnimal: req.params.animal,
+    res.render('index', {
       breeds: Object.keys(snapshot.val()),
       data: snapshot.val()
     });
   }).catch(err => {
     console.log('Error getting info on breeds', err)
   });
-
 });
+
 
 // temp -- displays breed db for testing
 app.get('/dogapi', function (req, res) {
